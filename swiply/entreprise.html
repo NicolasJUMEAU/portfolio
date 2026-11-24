@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil entreprise – Swiply (démo)</title>
+    <link rel="icon" href="images/logos/logo.png">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/tailwind.css">
+    <script src="js/db.js"></script>
+</head>
+<body class="flex flex-col min-h-screen">
+<div class="page-bg profil-search pt-24">
+    <div class="swiply-wrapper" id="profile"></div>
+</div>
+<div id="modal"></div>
+<div id="toast"></div>
+<script src="js/layout.js"></script>
+<script>
+    const id = Number(new URLSearchParams(location.search).get('id'));
+    let currentOffer = null;
+
+    function stars(n) {
+        return [1, 2, 3, 4, 5].map(i => `<span class="${i <= Math.round(n) ? '' : 'empty'}">★</span>`).join('');
+    }
+
+    function render(company) {
+        const offers = SwiplyDB.companyOffers(id);
+        const city = SwiplyDB.city(company.cities_id)?.name || 'Ville non renseignée';
+        const mine = SwiplyDB.userRating(id);
+        document.title = `${company.company_name} – Swiply (démo)`;
+        document.getElementById('profile').innerHTML = `
+            <div class="profil-header">
+                <div class="brand-section">
+                    <div class="avatar-circle"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+                    <div>
+                        <h1 class="company-name">${esc(company.company_name)}</h1>
+                        <p class="company-city">${esc(city)}</p>
+                    </div>
+                </div>
+                <div class="rating-block">
+                    <p class="rating-title">Noter l'entreprise</p>
+                    <form id="rateForm">
+                        <div class="stars-input">
+                            ${[5, 4, 3, 2, 1].map(i => `<label><input type="radio" name="score" value="${i}" ${mine === i ? 'checked' : ''}> ★</label>`).join('')}
+                        </div>
+                        <button type="submit" class="btn-rate">${mine ? 'Modifier ma note' : 'Noter'}</button>
+                    </form>
+                </div>
+            </div>
+            <div class="info-grid">
+                <div class="info-tile"><span class="tile-icon">🏢</span><p class="tile-label">Siège de l'entreprise</p><p class="tile-value">${esc(city)}</p></div>
+                <div class="info-tile"><span class="tile-icon">📧</span><p class="tile-label">Email de contact</p><p class="tile-value" style="font-size:0.85rem;">${esc(company.email || '—')}</p></div>
+                <div class="info-tile"><span class="tile-icon">📞</span><p class="tile-label">Téléphone</p><p class="tile-value">${esc(company.phone_number || '—')}</p></div>
+                <div class="info-tile"><div class="tile-stars">${stars(company.rating || 0)}</div><p class="tile-label">Note moyenne</p><p class="tile-value">${(company.rating || 0).toFixed(1)} / 5</p></div>
+                <div class="info-tile"><span class="tile-icon">💼</span><p class="tile-label">Offres disponibles</p><p class="tile-value">${offers.length}</p></div>
+                <div class="info-tile"><span class="tile-icon">🌐</span><p class="tile-label">Réseaux sociaux</p><p class="tile-value">—</p></div>
+            </div>
+            <div class="presentation-block">
+                <h3>Présentation</h3>
+                <p>${esc(company.company_description || 'Aucune description.')}</p>
+            </div>
+            <div class="presentation-block">
+                <h3>Offres disponibles (${offers.length})</h3>
+                <div class="wishlist-grid">
+                    ${offers.length ? offers.map(o => `<div class="card-wrap"><div class="job-card" onclick="openOffer(${o.id})">${miniCardHtml(o)}</div></div>`).join('')
+                                    : '<p style="text-align:center;width:100%;color:#666;padding:20px;">Aucune offre n\'est publiée pour le moment.</p>'}
+                </div>
+            </div>`;
+        document.getElementById('rateForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const score = Number(new FormData(e.target).get('score'));
+            if (!score) return showToast('Choisissez une note');
+            SwiplyDB.rate(id, score);
+            showToast(`Merci ! Note de ${score}/5 enregistrée.`);
+            e.target.querySelector('.btn-rate').textContent = 'Modifier ma note';
+        });
+    }
+
+    function openOffer(offerId) {
+        currentOffer = offerId;
+        openModalWith(SwiplyDB.offer(offerId));
+        const btn = document.getElementById('btnWishlist');
+        const inWish = SwiplyDB.isWishlisted(offerId);
+        btn.classList.toggle('already-in', inWish);
+        btn.disabled = inWish;
+        btn.innerHTML = inWish ? '✓ Déjà dans ma wishlist' : '❤️ Ajouter à ma wishlist';
+    }
+
+    SwiplyDB.load().then(() => {
+        const company = SwiplyDB.user(id);
+        if (!company || company.role_id !== 4) {
+            document.getElementById('profile').innerHTML = '<div class="presentation-block"><h3>Entreprise introuvable</h3><p><a href="recherche.html">Retour à la recherche</a></p></div>';
+            return;
+        }
+        document.getElementById('modal').outerHTML = modalHtml(`
+            <div class="modal-actions">
+                <button type="button" id="btnWishlist" class="btn-wishlist-add">❤️ Ajouter à ma wishlist</button>
+                <button type="button" class="btn-modal-close" onclick="closeModal()">Fermer</button>
+            </div>`);
+        document.getElementById('btnWishlist').addEventListener('click', () => {
+            SwiplyDB.addToWishlist(currentOffer);
+            openOffer(currentOffer);
+            showToast('❤️ Offre ajoutée à votre wishlist');
+        });
+        render(company);
+    });
+</script>
+</body>
+</html>

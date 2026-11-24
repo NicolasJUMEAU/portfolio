@@ -1,0 +1,42 @@
+[
+ {
+  "id": 1,
+  "name": "EPITECH",
+  "logo_url": null
+ },
+ {
+  "id": 2,
+  "name": "SUPINFO",
+  "logo_url": null
+ },
+ {
+  "id": 3,
+  "name": "IUT Paris Rives de Seine",
+  "logo_url": null
+ },
+ {
+  "id": 4,
+  "name": "EFREI Paris",
+  "logo_url": null
+ },
+ {
+  "id": 5,
+  "name": "ISEP",
+  "logo_url": null
+ },
+ {
+  "id": 6,
+  "name": "ECE Paris",
+  "logo_url": null
+ },
+ {
+  "id": 7,
+  "name": "HETIC",
+  "logo_url": null
+ },
+ {
+  "id": 8,
+  "name": "IIM Digital School",
+  "logo_url": null
+ }
+]

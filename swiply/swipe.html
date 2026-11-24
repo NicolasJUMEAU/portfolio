@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swipe – Swiply (démo)</title>
+    <link rel="icon" href="images/logos/logo.png">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/tailwind.css">
+    <script src="js/db.js"></script>
+</head>
+<body class="flex flex-col min-h-screen">
+<div class="swipe-wishlist-container flex flex-col bg-gradient-to-b from-[#99C2A8] to-[#78AB88] min-h-screen">
+    <main class="flex-grow pt-20 pb-4 flex flex-col items-center justify-center gap-8 relative" style="min-height: calc(100vh - 120px);">
+
+        <div class="backdrop" id="backdrop" onclick="closeAllPanels()"></div>
+        <div class="toast" id="toast"></div>
+
+        <!-- PANNEAU GAUCHE : FILTRES -->
+        <div class="slide-panel left-panel" id="filterPanel">
+            <div class="panel-inner">
+                <div class="panel-header">
+                    <div class="panel-header-left">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#323D52" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.7;">
+                            <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+                            <circle cx="8" cy="6" r="2" fill="rgba(212,230,217,0.95)" stroke="#323D52" stroke-width="2"/>
+                            <circle cx="16" cy="12" r="2" fill="rgba(212,230,217,0.95)" stroke="#323D52" stroke-width="2"/>
+                            <circle cx="10" cy="18" r="2" fill="rgba(212,230,217,0.95)" stroke="#323D52" stroke-width="2"/>
+                        </svg>
+                        <h2 class="panel-title">Filtres</h2>
+                    </div>
+                    <button class="panel-close-btn" onclick="closeAllPanels()">&times;</button>
+                </div>
+                <div class="panel-divider"></div>
+
+                <div class="filter-group">
+                    <label class="filter-label" for="f-type">Type de contrat</label>
+                    <select class="filter-select" id="f-type">
+                        <option value="">Tous (Stage & Alternance)</option>
+                        <option>Stage</option>
+                        <option>Alternance</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label" for="f-city">Localisation</label>
+                    <select class="filter-select" id="f-city"><option value="">Toutes les villes</option></select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Compétences / Tags</label>
+                    <input type="text" id="tag-search" class="filter-input" placeholder="Rechercher un tag…" oninput="filterTags(this.value)" style="margin-bottom: 10px;">
+                    <div id="tag-counter" style="font-size:0.72rem;font-weight:700;color:#78AB88;margin-bottom:8px;min-height:1em;"></div>
+                    <div class="filter-tag-grid" id="filter-tag-grid"></div>
+                    <button type="button" id="show-more-filter-tags" onclick="toggleFilterTags()"
+                            style="margin-top: 10px; background: none; border: none; color: #78AB88; font-weight: 700; cursor: pointer; font-size: 0.85rem;">
+                        Afficher plus
+                    </button>
+                    <p id="tag-no-result" style="display:none;font-size:0.82rem;color:#999;font-weight:600;margin-top:6px;">Aucun tag trouvé pour cette recherche.</p>
+                </div>
+
+                <button class="apply-btn" onclick="applyFilters()">Appliquer les filtres</button>
+            </div>
+        </div>
+
+        <!-- PANNEAU DROIT : INFOS -->
+        <div class="slide-panel right-panel" id="infoPanel">
+            <div class="panel-inner">
+                <div class="panel-header">
+                    <div class="panel-header-left">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#323D52" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.7;">
+                            <rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/><polyline points="13 17 15 19 19 15"/>
+                        </svg>
+                        <h2 class="panel-title">Description</h2>
+                    </div>
+                    <button class="panel-close-btn" onclick="closeAllPanels()">&times;</button>
+                </div>
+                <div class="panel-divider"></div>
+                <div id="infoPanelContent"></div>
+            </div>
+        </div>
+
+        <!-- AUCUNE OFFRE (filtres trop restrictifs) -->
+        <div class="empty-state" id="noOffers" style="display:none;">
+            <div class="empty-icon">🔍</div>
+            <h2 class="empty-title">Aucune offre disponible</h2>
+            <p class="empty-sub" id="noOffersText"></p>
+            <a href="swipe.html" class="empty-btn" id="noOffersReset">Voir toutes les offres</a>
+            <button class="empty-btn" onclick="openPanel('filter')">Modifier les filtres</button>
+        </div>
+
+        <div id="swipeUi" style="display:contents;">
+            <button class="panel-tab-btn left" id="btnFilterTab" onclick="openPanel('filter')" title="Filtres">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+                    <circle cx="8" cy="6" r="2" fill="white" stroke="#444" stroke-width="2"/><circle cx="16" cy="12" r="2" fill="white" stroke="#444" stroke-width="2"/><circle cx="10" cy="18" r="2" fill="white" stroke="#444" stroke-width="2"/>
+                </svg>
+            </button>
+            <button class="panel-tab-btn right" id="btnInfoTab" onclick="openPanel('info')" title="Détails">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/><polyline points="13 17 15 19 19 15"/>
+                </svg>
+            </button>
+
+            <div id="cardArea" class="flex flex-col items-center" style="position:relative;z-index:5;">
+                <div class="hidden lg:flex items-center gap-12">
+                    <button class="action-btn reject" id="btnReject" onclick="swipeCard('left')" title="Passer">✕</button>
+                    <div class="card-stack" id="cardStack"></div>
+                    <button class="action-btn accept" id="btnAccept" onclick="swipeCard('right')" title="Liker">✓</button>
+                </div>
+                <div class="lg:hidden">
+                    <div class="card-stack" id="cardStackMobile"></div>
+                </div>
+                <div class="mobile-actions lg:hidden mt-5">
+                    <button class="action-btn reject" id="btnRejectMobile" onclick="swipeCard('left')" title="Passer">✕</button>
+                    <button class="action-btn accept" id="btnAcceptMobile" onclick="swipeCard('right')" title="Liker">✓</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ÉTAT VIDE APRÈS AVOIR TOUT VU -->
+        <div class="empty-state" id="emptyState" style="display:none;">
+            <div class="empty-icon">🎉</div>
+            <h2 class="empty-title">Vous avez tout vu !</h2>
+            <p class="empty-sub">Vous avez parcouru toutes les offres disponibles.<br>Modifiez vos filtres ou réinitialisez la démo pour recommencer.</p>
+            <button class="empty-btn" onclick="openPanel('filter')">Modifier les filtres</button>
+            <a href="wishlist.html" class="empty-btn">Voir mes likes ❤️</a>
+            <button class="empty-btn" data-reset-demo>Réinitialiser la démo</button>
+        </div>
+    </main>
+</div>
+<script src="js/layout.js"></script>
+<script>
+    const params = new URLSearchParams(location.search);
+    const filters = {
+        type: params.get('type') || '',
+        cityId: params.get('city_id') || '',
+        tagIds: params.getAll('tags[]').map(Number),
+    };
+    const hasFilters = filters.type || filters.cityId || filters.tagIds.length;
+    let jobs = [];
+
+    // ── Panneaux ──
+    function openPanel(type) {
+        closeAllPanels();
+        const cardArea = document.getElementById('cardArea');
+        if (type === 'filter') {
+            document.getElementById('filterPanel').classList.add('open');
+            cardArea.classList.add('shift-right');
+            document.getElementById('btnFilterTab').classList.add('hidden-btn');
+        } else {
+            fillInfoPanel();
+            document.getElementById('infoPanel').classList.add('open');
+            cardArea.classList.add('shift-left');
+            document.getElementById('btnInfoTab').classList.add('hidden-btn');
+        }
+        document.getElementById('backdrop').classList.add('visible');
+    }
+    function closeAllPanels() {
+        ['filterPanel', 'infoPanel'].forEach(id => document.getElementById(id).classList.remove('open'));
+        document.getElementById('backdrop').classList.remove('visible');
+        document.getElementById('cardArea').classList.remove('shift-right', 'shift-left');
+        document.getElementById('btnFilterTab').classList.remove('hidden-btn');
+        document.getElementById('btnInfoTab').classList.remove('hidden-btn');
+    }
+
+    // ── Filtres ──
+    function buildFilters() {
+        document.getElementById('f-type').value = filters.type;
+        const citySel = document.getElementById('f-city');
+        SwiplyDB.cities().forEach(c => citySel.add(new Option(c.name, c.id, false, String(c.id) === filters.cityId)));
+        const grid = document.getElementById('filter-tag-grid');
+        grid.innerHTML = SwiplyDB.tags().map((t, i) => {
+            const active = filters.tagIds.includes(t.id);
+            return `<span class="filter-tag ${active ? 'active' : ''}" data-tag-id="${t.id}" data-tag-name="${esc(t.name.toLowerCase())}"
+                          onclick="toggleTag(this)" style="${i >= 12 && !active ? 'display:none;' : ''}">${esc(t.name)}</span>`;
+        }).join('');
+        updateTagCounter();
+    }
+    function toggleTag(el) { el.classList.toggle('active'); updateTagCounter(); }
+    function filterTags(query) {
+        const q = query.trim().toLowerCase();
+        let visible = 0;
+        document.querySelectorAll('#filter-tag-grid .filter-tag').forEach(tag => {
+            const match = !q || tag.dataset.tagName.includes(q);
+            tag.style.display = match ? '' : 'none';
+            if (match) visible++;
+        });
+        document.getElementById('tag-no-result').style.display = visible === 0 ? 'block' : 'none';
+        updateTagCounter();
+    }
+    function updateTagCounter() {
+        const n = document.querySelectorAll('#filter-tag-grid .filter-tag.active').length;
+        document.getElementById('tag-counter').textContent = n > 0 ? `${n} tag${n > 1 ? 's' : ''} sélectionné${n > 1 ? 's' : ''}` : '';
+    }
+    let filterTagsExpanded = false;
+    function toggleFilterTags() {
+        filterTagsExpanded = !filterTagsExpanded;
+        document.querySelectorAll('#filter-tag-grid .filter-tag').forEach((tag, i) => {
+            if (i >= 12 && !tag.classList.contains('active')) tag.style.display = filterTagsExpanded ? '' : 'none';
+        });
+        document.getElementById('show-more-filter-tags').textContent = filterTagsExpanded ? 'Afficher moins' : 'Afficher plus';
+    }
+    function applyFilters() {
+        const p = new URLSearchParams();
+        const type = document.getElementById('f-type').value;
+        const cityId = document.getElementById('f-city').value;
+        if (type) p.set('type', type);
+        if (cityId) p.set('city_id', cityId);
+        document.querySelectorAll('.filter-tag.active[data-tag-id]').forEach(t => p.append('tags[]', t.dataset.tagId));
+        location.href = 'swipe.html' + (p.toString() ? '?' + p : '');
+    }
+
+    // ── Cartes ──
+    let currentIndex = 0, isDragging = false, startX = 0, startY = 0, currentX = 0;
+
+    function getActiveStack() {
+        return document.getElementById(window.innerWidth < 1024 ? 'cardStackMobile' : 'cardStack');
+    }
+    function renderCards() {
+        document.getElementById('cardStack').innerHTML = '';
+        document.getElementById('cardStackMobile').innerHTML = '';
+        const stack = getActiveStack();
+        const visible = jobs.slice(currentIndex, currentIndex + 3);
+        if (!visible.length) { showFinalEmpty(); return; }
+        [...visible].reverse().forEach((job, ri) => stack.appendChild(buildCard(job, ri === visible.length - 1)));
+    }
+    let resizeTimer;
+    window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(renderCards, 200); });
+
+    function buildCard(job, isTop) {
+        const card = document.createElement('div');
+        card.className = 'job-card' + (isTop ? ' top-card' : '');
+        card.dataset.jobId = job.id;
+        const shown = job.tags.slice(0, 3).map(t => `<span class="tag">${esc(t)}</span>`).join('');
+        const more = job.tags.length > 3 ? `<span class="tag tag-more">…</span>` : '';
+        card.innerHTML = `
+            <span class="vote-label nope" id="nope-${job.id}">NON</span>
+            <span class="vote-label like" id="like-${job.id}">OUI !</span>
+            <span class="suit-corner suit-tl ${job.suitClass}">${job.suit}</span>
+            <span class="suit-corner suit-br ${job.suitClass}">${job.suit}</span>
+            <div class="job-card-content">
+                <div class="job-card-header"><span class="contract-badge ${job.badgeClass}">${esc(job.type)}</span></div>
+                <div class="job-card-body">
+                    <div class="job-card-row"><span class="job-card-icon">💼</span><span class="job-card-title">${esc(job.title)}</span></div>
+                    <div class="job-card-row"><span class="job-card-icon">🏢</span><span class="job-card-company">${esc(job.company || 'Entreprise non précisée')}</span></div>
+                    <div class="job-card-row"><span class="job-card-icon">📍</span><span class="job-card-location">${esc(job.location || 'Lieu non précisé')}</span></div>
+                    <div class="job-card-row"><span class="job-card-icon">🎓</span><span class="job-card-level">${esc(job.level)}</span></div>
+                </div>
+                <div class="job-card-stats">
+                    <div class="job-card-stat-item"><span class="job-card-icon">💶</span><span class="job-card-stat-value">${esc(job.salary)}</span></div>
+                    <div class="job-card-stat-item"><span class="job-card-icon">⏱️</span><span class="job-card-stat-value">${esc(job.duration)}</span></div>
+                </div>
+                <div class="job-card-tags-section">
+                    <div class="job-card-tags-label">Tags :</div>
+                    <div class="job-card-tags-list">${shown}${more}</div>
+                </div>
+            </div>`;
+        if (isTop) {
+            card.addEventListener('mousedown', dragStart);
+            card.addEventListener('touchstart', dragStart, { passive: true });
+        }
+        return card;
+    }
+    function dragStart(e) {
+        isDragging = true;
+        const pt = e.touches ? e.touches[0] : e;
+        startX = pt.clientX; startY = pt.clientY; currentX = 0;
+        document.addEventListener('mousemove', dragMove);
+        document.addEventListener('touchmove', dragMove, { passive: true });
+        document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('touchend', dragEnd);
+    }
+    function dragMove(e) {
+        if (!isDragging) return;
+        const pt = e.touches ? e.touches[0] : e;
+        currentX = pt.clientX - startX;
+        const dy = (pt.clientY - startY) * 0.3;
+        const card = document.querySelector('.top-card');
+        if (!card) return;
+        card.style.transform = `translate(${currentX}px, ${dy}px) rotate(${currentX * 0.07}deg)`;
+        card.style.transition = 'none';
+        const job = jobs[currentIndex];
+        const nope = document.getElementById(`nope-${job.id}`);
+        const like = document.getElementById(`like-${job.id}`);
+        if (currentX < -30) { nope.style.opacity = Math.min(1, Math.abs(currentX) / 100); like.style.opacity = 0; }
+        else if (currentX > 30) { like.style.opacity = Math.min(1, currentX / 100); nope.style.opacity = 0; }
+        else { nope.style.opacity = 0; like.style.opacity = 0; }
+    }
+    function dragEnd() {
+        isDragging = false;
+        document.removeEventListener('mousemove', dragMove);
+        document.removeEventListener('touchmove', dragMove);
+        document.removeEventListener('mouseup', dragEnd);
+        document.removeEventListener('touchend', dragEnd);
+        const card = document.querySelector('.top-card');
+        if (!card) return;
+        if (Math.abs(currentX) > 90) {
+            triggerSwipe(card, currentX > 0 ? 'right' : 'left');
+        } else {
+            card.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            card.style.transform = '';
+            const job = jobs[currentIndex];
+            document.getElementById(`nope-${job.id}`).style.opacity = 0;
+            document.getElementById(`like-${job.id}`).style.opacity = 0;
+        }
+        currentX = 0;
+    }
+    function swipeCard(dir) {
+        const card = document.querySelector('.top-card');
+        if (card) triggerSwipe(card, dir);
+    }
+    function triggerSwipe(card, dir) {
+        const job = jobs[currentIndex];
+        card.style.transition = '';
+        card.classList.remove('top-card');
+        card.classList.add(dir === 'left' ? 'swiping-left' : 'swiping-right');
+        const { matched } = SwiplyDB.recordSwipe(job.id, dir);
+        if (matched) showToast('🎉 Match ! Offre ajoutée à votre wishlist.', 'match');
+        card.addEventListener('animationend', () => { currentIndex++; renderCards(); }, { once: true });
+    }
+
+    function fillInfoPanel() {
+        const job = jobs[currentIndex];
+        const el = document.getElementById('infoPanelContent');
+        if (!job) { el.innerHTML = '<p style="color:#999;font-size:0.9rem;">Aucune offre à afficher.</p>'; return; }
+        el.innerHTML = offerDetailsHtml(job) + `
+            <div style="margin-top:20px;display:flex;gap:10px;">
+                <button onclick="closeAllPanels();swipeCard('left')" style="flex:1;padding:11px;border-radius:12px;border:2px solid #e74c3c;background:white;color:#e74c3c;font-weight:800;cursor:pointer;font-size:0.9rem;">✕ Passer</button>
+                <button onclick="closeAllPanels();swipeCard('right')" style="flex:1;padding:11px;border-radius:12px;border:none;background:#323D52;color:white;font-weight:800;cursor:pointer;font-size:0.9rem;">✓ Liker</button>
+            </div>`;
+    }
+    function showFinalEmpty() {
+        document.getElementById('swipeUi').style.display = 'none';
+        document.getElementById('emptyState').style.display = 'flex';
+    }
+
+    document.addEventListener('keydown', e => {
+        if (e.target.matches('input, select')) return;
+        if (e.key === 'ArrowLeft') swipeCard('left');
+        if (e.key === 'ArrowRight') swipeCard('right');
+    });
+
+    SwiplyDB.load().then(() => {
+        buildFilters();
+        jobs = SwiplyDB.swipeOffers(filters);
+        if (!jobs.length && hasFilters) {
+            document.getElementById('swipeUi').style.display = 'none';
+            document.getElementById('noOffersText').innerHTML = 'Aucune offre ne correspond à vos filtres.<br>Essayez d\'élargir votre recherche.';
+            document.getElementById('noOffers').style.display = 'flex';
+            return;
+        }
+        renderCards();
+    });
+</script>
+</body>
+</html>

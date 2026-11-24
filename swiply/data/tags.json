@@ -1,0 +1,312 @@
+[
+ {
+  "id": 1,
+  "name": "PHP",
+  "categories_id": 1
+ },
+ {
+  "id": 2,
+  "name": "JavaScript",
+  "categories_id": 1
+ },
+ {
+  "id": 3,
+  "name": "Python",
+  "categories_id": 1
+ },
+ {
+  "id": 4,
+  "name": "React",
+  "categories_id": 1
+ },
+ {
+  "id": 5,
+  "name": "Laravel",
+  "categories_id": 1
+ },
+ {
+  "id": 6,
+  "name": "DevOps",
+  "categories_id": 1
+ },
+ {
+  "id": 7,
+  "name": "Cybersécurité",
+  "categories_id": 1
+ },
+ {
+  "id": 8,
+  "name": "Vue.js",
+  "categories_id": 1
+ },
+ {
+  "id": 9,
+  "name": "Node.js",
+  "categories_id": 1
+ },
+ {
+  "id": 10,
+  "name": "Docker",
+  "categories_id": 1
+ },
+ {
+  "id": 11,
+  "name": "TypeScript",
+  "categories_id": 1
+ },
+ {
+  "id": 12,
+  "name": "SQL",
+  "categories_id": 1
+ },
+ {
+  "id": 13,
+  "name": "Machine Learning",
+  "categories_id": 1
+ },
+ {
+  "id": 14,
+  "name": "Cloud AWS",
+  "categories_id": 1
+ },
+ {
+  "id": 15,
+  "name": "Java",
+  "categories_id": 1
+ },
+ {
+  "id": 16,
+  "name": "Swift",
+  "categories_id": 1
+ },
+ {
+  "id": 17,
+  "name": "Kotlin",
+  "categories_id": 1
+ },
+ {
+  "id": 18,
+  "name": "Angular",
+  "categories_id": 1
+ },
+ {
+  "id": 19,
+  "name": "SEO",
+  "categories_id": 2
+ },
+ {
+  "id": 20,
+  "name": "Réseaux Sociaux",
+  "categories_id": 2
+ },
+ {
+  "id": 21,
+  "name": "Copywriting",
+  "categories_id": 2
+ },
+ {
+  "id": 22,
+  "name": "Google Ads",
+  "categories_id": 2
+ },
+ {
+  "id": 23,
+  "name": "Email Marketing",
+  "categories_id": 2
+ },
+ {
+  "id": 24,
+  "name": "Content Marketing",
+  "categories_id": 2
+ },
+ {
+  "id": 25,
+  "name": "Analytics",
+  "categories_id": 2
+ },
+ {
+  "id": 26,
+  "name": "Relations Presse",
+  "categories_id": 2
+ },
+ {
+  "id": 27,
+  "name": "Audit",
+  "categories_id": 3
+ },
+ {
+  "id": 28,
+  "name": "Contrôle de Gestion",
+  "categories_id": 3
+ },
+ {
+  "id": 29,
+  "name": "Excel Avancé",
+  "categories_id": 3
+ },
+ {
+  "id": 30,
+  "name": "Comptabilité",
+  "categories_id": 3
+ },
+ {
+  "id": 31,
+  "name": "Finance d'entreprise",
+  "categories_id": 3
+ },
+ {
+  "id": 32,
+  "name": "Trésorerie",
+  "categories_id": 3
+ },
+ {
+  "id": 33,
+  "name": "Recrutement",
+  "categories_id": 4
+ },
+ {
+  "id": 34,
+  "name": "Formation",
+  "categories_id": 4
+ },
+ {
+  "id": 35,
+  "name": "Paie",
+  "categories_id": 4
+ },
+ {
+  "id": 36,
+  "name": "GPEC",
+  "categories_id": 4
+ },
+ {
+  "id": 37,
+  "name": "Droit Social",
+  "categories_id": 4
+ },
+ {
+  "id": 38,
+  "name": "Négociation",
+  "categories_id": 5
+ },
+ {
+  "id": 39,
+  "name": "CRM",
+  "categories_id": 5
+ },
+ {
+  "id": 40,
+  "name": "B2B",
+  "categories_id": 5
+ },
+ {
+  "id": 41,
+  "name": "E-commerce",
+  "categories_id": 5
+ },
+ {
+  "id": 42,
+  "name": "Key Account",
+  "categories_id": 5
+ },
+ {
+  "id": 43,
+  "name": "Figma",
+  "categories_id": 6
+ },
+ {
+  "id": 44,
+  "name": "Photoshop",
+  "categories_id": 6
+ },
+ {
+  "id": 45,
+  "name": "UX/UI Design",
+  "categories_id": 6
+ },
+ {
+  "id": 46,
+  "name": "Illustrator",
+  "categories_id": 6
+ },
+ {
+  "id": 47,
+  "name": "Motion Design",
+  "categories_id": 6
+ },
+ {
+  "id": 48,
+  "name": "Direction Artistique",
+  "categories_id": 6
+ },
+ {
+  "id": 49,
+  "name": "CAO",
+  "categories_id": 7
+ },
+ {
+  "id": 50,
+  "name": "Lean Manufacturing",
+  "categories_id": 7
+ },
+ {
+  "id": 51,
+  "name": "Électronique",
+  "categories_id": 7
+ },
+ {
+  "id": 52,
+  "name": "Mécanique",
+  "categories_id": 7
+ },
+ {
+  "id": 53,
+  "name": "Gestion de Projet",
+  "categories_id": 7
+ },
+ {
+  "id": 54,
+  "name": "Automatisation",
+  "categories_id": 7
+ },
+ {
+  "id": 55,
+  "name": "Santé Publique",
+  "categories_id": 8
+ },
+ {
+  "id": 56,
+  "name": "Coordination",
+  "categories_id": 8
+ },
+ {
+  "id": 57,
+  "name": "Droit des Affaires",
+  "categories_id": 9
+ },
+ {
+  "id": 58,
+  "name": "Propriété Intellectuelle",
+  "categories_id": 9
+ },
+ {
+  "id": 59,
+  "name": "Conformité RGPD",
+  "categories_id": 9
+ },
+ {
+  "id": 60,
+  "name": "Supply Chain",
+  "categories_id": 10
+ },
+ {
+  "id": 61,
+  "name": "Gestion des Stocks",
+  "categories_id": 10
+ },
+ {
+  "id": 62,
+  "name": "Planification",
+  "categories_id": 10
+ }
+]

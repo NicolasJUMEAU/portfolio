@@ -1,0 +1,52 @@
+[
+ {
+  "id": 1,
+  "name": "Paris",
+  "country": "France"
+ },
+ {
+  "id": 2,
+  "name": "Lyon",
+  "country": "France"
+ },
+ {
+  "id": 3,
+  "name": "Marseille",
+  "country": "France"
+ },
+ {
+  "id": 4,
+  "name": "Toulouse",
+  "country": "France"
+ },
+ {
+  "id": 5,
+  "name": "Bordeaux",
+  "country": "France"
+ },
+ {
+  "id": 6,
+  "name": "Nantes",
+  "country": "France"
+ },
+ {
+  "id": 7,
+  "name": "Lille",
+  "country": "France"
+ },
+ {
+  "id": 8,
+  "name": "Strasbourg",
+  "country": "France"
+ },
+ {
+  "id": 9,
+  "name": "Montpellier",
+  "country": "France"
+ },
+ {
+  "id": 10,
+  "name": "Rennes",
+  "country": "France"
+ }
+]

@@ -81,6 +81,7 @@
     min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
     color: var(--muted); font-size: .95rem; text-align: center; padding: 20px;
   }
+  .carousel .slide:has(img) { padding: 0; }
   .carousel .slide img { width: 100%; height: 100%; object-fit: cover; }
   .carousel button {
     position: absolute; top: 50%; transform: translateY(-50%);
@@ -179,16 +180,18 @@
   <section class="project reverse" data-side="#e2e0f5" data-bg="#fff6f5" id="swiply">
     <div class="text">
       <h2>Swiply</h2>
-      <a class="btn small" href="#" target="_blank" rel="noopener">Lien du site</a>
-      <div class="tags"><span>Web</span><span>Base de données</span></div>
-      <p>Description du projet à compléter : objectif, public visé, fonctionnalités.</p>
-      <p>Version en ligne bientôt disponible.</p>
+      <a class="btn small" href="swiply/" target="_blank" rel="noopener">Essayer la démo</a>
+      <div class="tags"><span>Laravel</span><span>PHP</span><span>MySQL</span><span>JavaScript</span></div>
+      <p>Application web réalisée en équipe qui aide les étudiants à trouver un stage ou une alternance en « swipant » des offres, à la manière d'une application de rencontres. Les entreprises publient leurs offres, les étudiants les likent, les ajoutent à leur wishlist puis postulent avec leur CV, et les pilotes de promotion suivent leurs candidatures.</p>
+      <p>La démo en ligne est une version statique : les données de la base MySQL sont exportées en JSON et vos actions (swipes, wishlist, candidatures) restent dans votre navigateur.</p>
     </div>
     <div class="visual">
       <div class="box carousel" data-carousel>
         <div class="slides">
-          <div class="slide">Capture 1 – Swiply</div>
-          <div class="slide">Capture 2 – Swiply</div>
+          <div class="slide"><img src="images/swiply-1.jpg" alt="Swiply : carte d'offre à swiper" loading="lazy"></div>
+          <div class="slide"><img src="images/swiply-2.jpg" alt="Swiply : détail d'une offre" loading="lazy"></div>
+          <div class="slide"><img src="images/swiply-3.jpg" alt="Swiply : wishlist de l'étudiant" loading="lazy"></div>
+          <div class="slide"><img src="images/swiply-4.jpg" alt="Swiply : profil d'une entreprise" loading="lazy"></div>
         </div>
         <button class="prev" aria-label="Précédent">←</button>
         <button class="next" aria-label="Suivant">→</button>

@@ -1,0 +1,42 @@
+[
+ {
+  "id": 1,
+  "title": "Informatique & Développement"
+ },
+ {
+  "id": 2,
+  "title": "Marketing & Communication"
+ },
+ {
+  "id": 3,
+  "title": "Finance & Comptabilité"
+ },
+ {
+  "id": 4,
+  "title": "Ressources Humaines"
+ },
+ {
+  "id": 5,
+  "title": "Commerce & Vente"
+ },
+ {
+  "id": 6,
+  "title": "Design & Création"
+ },
+ {
+  "id": 7,
+  "title": "Ingénierie & Industrie"
+ },
+ {
+  "id": 8,
+  "title": "Santé & Social"
+ },
+ {
+  "id": 9,
+  "title": "Juridique"
+ },
+ {
+  "id": 10,
+  "title": "Logistique & Transport"
+ }
+]
