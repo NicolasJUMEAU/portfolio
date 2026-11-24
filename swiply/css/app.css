@@ -1,0 +1,1975 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/*///////////////////////////////////// logo nav-bar ////////////////////////////////*/
+
+.nav-logo {
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}
+.nav-logo:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+/*///////////////////////////////////// bouton nav-bar ////////////////////////////////*/
+
+.nav-btn {
+    @media (max-width: 768px) {
+        display: none;
+    }
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+    position: relative;
+}
+.nav-btn:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+.nav-btn::before{
+    content: "";
+    position: absolute;
+    background-color: white;
+    inset: -13px;
+    top: -25px;
+    bottom: -30px;
+    border-radius: 16px;
+    z-index: -1;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+.nav-btn::after{
+    content:attr(data-label);
+    font-weight: 550;
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    color: black;
+    font-size: 12px;
+    white-space: nowrap;
+}
+.nav-btn:hover {
+    box-shadow: none;
+    transform: scale(1.1);
+}
+.nav-btn:hover::after {
+    opacity: 1;
+}
+.nav-btn:hover::before {
+    opacity: 1;
+}
+
+/*///////////////////////////////////// bouton par défault ////////////////////////////////*/
+.main-btn {
+    background-color: #ebf3ee;
+    color: #374151;
+    padding: 20px 60px;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+    display: inline-block;
+}
+.main-btn:hover {
+    background-color: #374151;
+    color: #ffffff;
+}
+.main-btn:active {
+    background-color: transparent;
+    border-color: #374151;
+    color: #374151;
+    transform: scale(0.98);
+}
+
+/*///////////////////////////////////// Champs de saisie ////////////////////////////////*/
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px 0;
+}
+.form-group label {
+    color: #38425b;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+.field-custom {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px 20px;
+    border-radius: 15px;
+    border: 3px solid #ffffff;
+    background: rgba(255, 255, 255, 0.4);
+    color: #3d5a5a;
+    font-size: 1.1rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+.field-custom::placeholder {
+    color: rgba(61, 90, 90, 0.6);
+}
+.field-custom:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.5);
+}
+.field-custom:focus {
+    border-color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.6);
+}
+.field-custom.is-error,
+.field-custom:not(:placeholder-shown):invalid {
+    border-color: #e35d6a;
+    color: #3d5a5a;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+
+/*///////////////////////////////////// SWIPE & WISHLIST (Shared) ////////////////////////////////*/
+
+.swipe-wishlist-container,
+.swipe-wishlist-container * {
+    font-family: 'Nunito', sans-serif;
+}
+
+/* ── Cartes & Symboles ── */
+.job-card {
+    background: white; border-radius: 20px;
+    padding: 22px 22px 18px 22px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08);
+    position: relative; /* Base pour les coins et z-index */
+    overflow: hidden;
+}
+
+.job-card-content {
+    margin: 40px 0 0 0;
+}
+
+.job-card-header {
+    text-align: right;
+    margin-bottom: 12px;
+}
+
+.job-card-body {
+    margin-bottom: 15px;
+}
+
+.job-card-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.job-card-icon {
+    font-size: 1.35rem;
+}
+
+.job-card-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #222;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.job-card-company {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #444;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.job-card-location {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #666;
+}
+
+.job-card-level {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #555;
+    background: #f5f5f5;
+    padding: 3px 12px;
+    border-radius: 20px;
+}
+
+.job-card-stats {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 12px;
+}
+
+.job-card-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.job-card-stat-value {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #555;
+}
+
+.job-card-tags-section {
+    margin-top: 10px;
+}
+
+/* ── Badges de Statut (Candidatures) ── */
+.status-badge {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    margin-left: auto;
+}
+.status-pending { background: #fef3c7; color: #92400e; }
+.status-accepted { background: #d1fae5; color: #065f46; }
+.status-rejected { background: #fee2e2; color: #991b1b; }
+
+.job-card-tags-label {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.job-card-tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.tag-more {
+    background: #e8e8e8;
+    color: #888;
+}
+
+/* Modificateurs pour les cartes la Wishlist (plus petit) */
+.wishlist-grid .job-card-content {
+    margin: 21px 0 0 0;
+}
+.wishlist-grid .job-card-header {
+    margin-bottom: 4px;
+}
+.wishlist-grid .job-card-body {
+    margin-bottom: 10px;
+}
+.wishlist-grid .job-card-row {
+    gap: 5px;
+    margin-bottom: 4px;
+    align-items: flex-start;
+}
+.wishlist-grid .job-card-icon {
+    font-size: 1.2rem;
+}
+.wishlist-grid .job-card-icon.small {
+    font-size: 1.2rem;
+}
+.wishlist-grid .job-card-title {
+    font-size: 0.85rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    word-break: break-word;
+}
+.wishlist-grid .job-card-company {
+    font-size: 0.85rem;
+    white-space: normal;
+}
+.wishlist-grid .job-card-location {
+    font-size: 0.85rem;
+}
+.wishlist-grid .job-card-stats {
+    gap: 10px;
+    margin-bottom: 4px;
+}
+.wishlist-grid .job-card-stat-item {
+    gap: 3px;
+}
+.wishlist-grid .job-card-stat-value {
+    font-size: 0.75rem;
+}
+.wishlist-grid .job-card-tags-section {
+    margin-top: 5px;
+}
+.wishlist-grid .job-card-tags-label {
+    font-size: 0.65rem;
+    margin-bottom: 2px;
+}
+.wishlist-grid .contract-badge {
+    font-size: 0.9rem;
+    padding: 1px 6px;
+}
+.wishlist-grid .tag {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+}
+
+.suit-corner {
+    position: absolute;
+    font-size: 2.2rem;
+    line-height: 1;
+    pointer-events: none;
+}
+.suit-tl {
+    top: 10px;
+    left: 12px;
+}
+.suit-br {
+    bottom: 10px;
+    right: 12px;
+    transform: rotate(180deg);
+}
+.suit-red {
+    color: #e74c3c;
+}
+.suit-black {
+    color: #1a1a1a;
+}
+
+.tag {
+    display: inline-block;
+    background: #f0f0f0;
+    border-radius: 20px;
+    padding: 4px 24px;
+    font-size: 0.90rem;
+    font-weight: 700;
+    color: #555;
+    margin: 2px 2px;
+}
+
+.contract-badge {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    padding: 2px 10px;
+    border: 1.5px solid;
+}
+.badge-stage {
+    color: #e74c3c;
+    border-color: #e74c3c;
+    background: #fff5f5;
+}
+.badge-alternance {
+    color: #333;
+    border-color: #aaa;
+    background: #f5f5f5;
+}
+
+/* ── États vides ── */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    text-align: center;
+    width: 100%;
+    padding: 40px 20px;
+}
+.empty-icon {
+    font-size: 4rem;
+    animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+.empty-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: white;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.empty-sub {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.55;
+}
+.empty-btn,
+.btn-go-swipe {
+    padding: 11px 28px;
+    background: white;
+    color: #78AB88;
+    font-weight: 800;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 0 rgba(0,0,0,0.12);
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.1s, box-shadow 0.1s;
+    margin-top: 6px;
+}
+.btn-go-swipe {
+    color: #38425b;
+    padding: 12px 30px;
+}
+.empty-btn:active,
+.btn-go-swipe:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 0 rgba(0,0,0,0.1);
+}
+
+/* ── En-tête de Panneaux et Modales ── */
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 36px;
+}
+.panel-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.panel-title {
+    font-size: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    color: #323D52;
+    margin: 0;
+}
+.panel-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #323D52;
+    line-height: 1;
+    padding: 0;
+    transition: transform 0.2s;
+}
+.panel-close-btn:hover {
+    transform: scale(1.25);
+}
+.panel-divider {
+    height: 2px;
+    background: rgba(50,61,82,0.1);
+    border-radius: 999px;
+    margin-bottom: 24px;
+}
+
+/* ── Lignes de détails (Panneaux / Modales) ── */
+.modal-body-header {
+    background: rgba(255,255,255,0.5);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.modal-section {
+    margin-top: 16px;
+}
+
+.modal-header-info {
+    flex: 1;
+}
+
+.modal-job-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 4px;
+}
+
+.modal-company-name {
+    font-size: 0.85rem;
+    color: #78AB88;
+    font-weight: 700;
+}
+
+.modal-suit-large {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.modal-section-title {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.modal-description-text {
+    font-size: 0.875rem;
+    color: #444;
+    line-height: 1.65;
+    margin: 0;
+}
+
+.modal-contact-value {
+    font-size: 0.82rem;
+}
+
+.detail-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(50,61,82,0.08);
+}
+.detail-row:last-child {
+    border-bottom: none;
+}
+.detail-icon {
+    font-size: 1.2rem;
+    width: 26px;
+    text-align: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+.detail-label {
+    font-size: 0.7rem;
+    color: #999;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.detail-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #333;
+}
+
+/* ── Toast Notifications ── */
+#toast,
+.toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #333;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 10000;
+    white-space: nowrap;
+}
+#toast.show,
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+.toast.match {
+    background: #27ae60;
+}
+
+/*///////////////////////////////////// SWIPE SPECIFIC ////////////////////////////////*/
+
+.card-stack {
+    position: relative;
+    width: 375px;
+    height: 510px;
+}
+
+/* Comportement spécifique à la pile de cartes */
+.card-stack .job-card {
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    will-change: transform;
+    position: absolute;
+    inset: 0;
+}
+.card-stack .job-card:active {
+    cursor: grabbing;
+}
+.card-stack .job-card:nth-child(2) {
+    transform: rotate(-3deg) translateY(6px) translateX(-4px);
+    z-index: 1;
+}
+.card-stack .job-card:nth-child(3) {
+    transform: rotate(2deg) translateY(10px) translateX(3px);
+    z-index: 0;
+}
+.card-stack .job-card.top-card {
+    z-index: 10;
+}
+
+.card-stack .job-card.swiping-left {
+    animation: swipeLeft 0.4s ease-in forwards;
+}
+.card-stack .job-card.swiping-right {
+    animation: swipeRight 0.4s ease-in forwards;
+}
+@keyframes swipeLeft {
+    to { transform: translateX(-140vw) rotate(-35deg); opacity: 0; }
+}
+@keyframes swipeRight {
+    to { transform: translateX(140vw)  rotate(35deg);  opacity: 0; }
+}
+
+/* Labels de vote sur la carte */
+.vote-label {
+    position: absolute;
+    top: 22px;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    border: 3px solid;
+    border-radius: 8px;
+    padding: 2px 12px;
+    opacity: 0;
+    transition: opacity 0.12s;
+    pointer-events: none;
+    z-index: 20;
+}
+.vote-label.nope {
+    left: 16px;
+    color: #e74c3c;
+    border-color: #e74c3c;
+    transform: rotate(-12deg);
+}
+.vote-label.like {
+    right: 16px;
+    color: #27ae60;
+    border-color: #27ae60;
+    transform: rotate(12deg);
+}
+
+/* Boutons d'action Swipe */
+.action-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 4px 0 0 rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    border: none;
+    font-size: 2.1rem;
+}
+.action-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 0 rgba(0,0,0,0.15);
+}
+.action-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: 0 4px 0 0 rgba(0,0,0,0.08) !important;
+}
+.action-btn.reject {
+    color: #e74c3c;
+}
+.action-btn.accept {
+    color: #27ae60;
+}
+
+/* Panneaux latéraux et filtres */
+.panel-tab-btn {
+    position: absolute;
+    top: 20%;
+    z-index: 40;
+    background: rgba(255,255,255,0.9);
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    border: 1.5px solid rgba(255,255,255,0.8);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.panel-tab-btn:hover {
+    transform: scale(1.10);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+}
+.panel-tab-btn.hidden-btn {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.85);
+}
+.panel-tab-btn.left {
+    left: 40px;
+}
+.panel-tab-btn.right {
+    right: 40px;
+}
+
+.slide-panel {
+    position: fixed;
+    top: 112px;
+    bottom: 48px;
+    width: 45%;
+    background: rgba(212, 230, 217, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 45px;
+    border: 1.5px solid rgba(255,255,255,0.6);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+    z-index: 50;
+    overflow: hidden;
+    padding: 0;
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.slide-panel.left-panel {
+    left: 32px;
+    transform: translateX(-120%);
+}
+.slide-panel.right-panel {
+    right: 32px;
+    transform: translateX(120%);
+}
+.slide-panel.open {
+    transform: translateX(0);
+}
+
+.panel-inner {
+    height: 100%;
+    overflow-y: auto;
+    padding: 48px;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(50, 61, 82, 0.25) transparent;
+}
+.panel-inner::-webkit-scrollbar {
+    width: 6px;
+}
+.panel-inner::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 45px;
+    margin-bottom: 45px;
+}
+.panel-inner::-webkit-scrollbar-thumb {
+    background: rgba(50, 61, 82, 0.22);
+    border-radius: 999px;
+}
+.panel-inner::-webkit-scrollbar-thumb:hover {
+    background: rgba(50, 61, 82, 0.38);
+}
+
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.15);
+    z-index: 40;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+}
+.backdrop.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#cardArea {
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+#cardArea.shift-right {
+    transform: translateX(34%) scale(0.75);
+}
+#cardArea.shift-left {
+    transform: translateX(-34%) scale(0.75);
+}
+
+/* Filtres de swipe */
+.filter-group {
+    margin-bottom: 18px;
+}
+.filter-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #323D52;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: block;
+}
+.filter-select,
+.filter-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid rgba(255,255,255,0.7);
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s;
+    background: rgba(255,255,255,0.7);
+}
+.filter-select:focus,
+.filter-input:focus {
+    border-color: #78AB88;
+    background: white;
+}
+.filter-tag-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.filter-tag {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 2px solid rgba(255,255,255,0.7);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #323D52;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: rgba(255,255,255,0.5);
+}
+.filter-tag.active {
+    background: #78AB88;
+    border-color: #78AB88;
+    color: white;
+}
+.apply-btn {
+    width: 100%;
+    background: #323D52;
+    color: white;
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 13px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.15s;
+}
+.apply-btn:hover {
+    background: #4a5568;
+}
+
+/*///////////////////////////////////// SWIPE RESPONSIVE (Mobile First) ////////////////////////////////*/
+
+/* ── Base mobile (défaut) ── */
+.card-stack {
+    width: min(300px, 70vw);
+    height: min(420px, 60vh);
+}
+
+.card-stack .job-card {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding: clamp(14px, 4vw, 22px);
+    box-sizing: border-box;
+}
+
+.card-stack .job-card-content {
+    margin-top: clamp(24px, 5vw, 40px);
+}
+
+.card-stack .job-card-title {
+    font-size: clamp(0.95rem, 4vw, 1.25rem);
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.3;
+}
+
+.card-stack .job-card-company {
+    font-size: clamp(0.88rem, 3.5vw, 1.15rem);
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.3;
+}
+
+.card-stack .job-card-location {
+    font-size: clamp(0.88rem, 3.5vw, 1.05rem);
+    white-space: normal;
+    line-height: 1.3;
+}
+
+.card-stack .job-card-level {
+    font-size: clamp(0.85rem, 3.2vw, 1rem);
+    white-space: normal;
+    padding: 2px clamp(8px, 2vw, 12px);
+}
+
+.card-stack .job-card-icon {
+    font-size: clamp(1rem, 3.5vw, 1.35rem);
+}
+
+.card-stack .job-card-row {
+    gap: clamp(6px, 2vw, 10px);
+    margin-bottom: clamp(7px, 2vw, 12px);
+}
+
+.card-stack .job-card-body {
+    margin-bottom: clamp(8px, 2vw, 15px);
+}
+
+.card-stack .job-card-stats {
+    gap: clamp(10px, 3vw, 20px);
+    margin-bottom: clamp(6px, 2vw, 12px);
+}
+
+.card-stack .job-card-stat-value {
+    font-size: clamp(0.85rem, 3.2vw, 0.92rem);
+}
+
+
+.card-stack .job-card-tags-label {
+    font-size: clamp(0.8rem, 2.8vw, 0.9rem);
+}
+
+.card-stack .tag {
+    font-size: clamp(0.78rem, 2.8vw, 0.9rem);
+    padding: clamp(3px, 0.8vw, 4px) clamp(10px, 3vw, 24px);
+}
+
+.card-stack .contract-badge {
+    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+    padding: 2px clamp(6px, 1.5vw, 10px);
+}
+
+.card-stack .suit-corner {
+    font-size: clamp(2rem, 6vw, 2.8rem);
+}
+
+.card-stack .job-card-header {
+    margin-bottom: clamp(6px, 1.5vw, 12px);
+}
+/* Boutons action */
+.action-btn {
+    width: clamp(40px, 10vw, 56px);
+    height: clamp(40px, 10vw, 56px);
+    border-radius: 12px;
+    font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+.mobile-actions {
+    display: flex;
+    gap: clamp(24px, 8vw, 40px);
+    justify-content: center;
+    align-items: center;
+    margin-top: 28px;
+}
+
+/* Bouton description caché sur mobile */
+.panel-tab-btn.right {
+    display: none;
+}
+
+/* Bouton filtre repositionné sur mobile */
+.panel-tab-btn.left {
+    top: 72px;
+    left: 16px;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+/* Panneau plein écran sur mobile */
+.slide-panel {
+    top: 64px;
+    bottom: 0;
+    width: 90%;
+    border-radius: 24px 24px 0 0;
+}
+.slide-panel.left-panel {
+    left: 5%;
+    transform: translateY(120%);
+}
+.slide-panel.right-panel {
+    right: 5%;
+    transform: translateY(120%);
+}
+.slide-panel.open {
+    transform: translateY(0);
+}
+
+.panel-inner {
+    padding: 28px 24px;
+}
+
+/* Shift désactivé sur mobile */
+#cardArea.shift-right,
+#cardArea.shift-left {
+    transform: none;
+}
+
+/* ── Tablette (≥ 640px) ── */
+@media (min-width: 640px) {
+    .card-stack {
+        width: min(340px, 75vw);
+        height: min(470px, 68vh);
+    }
+
+    .panel-tab-btn.left {
+        top: 20%;
+        left: 20px;
+        padding: 14px;
+    }
+}
+
+/* ── Desktop (≥ 1024px) ── */
+@media (min-width: 1024px) {
+    .card-stack {
+        width: 375px;
+        height: 510px;
+    }
+
+    /* Reset tous les clamp sur desktop — valeurs fixes originales */
+    .card-stack .job-card {
+        overflow: hidden;
+        padding: 22px 22px 18px 22px;
+    }
+    .card-stack .job-card-content  { margin-top: 40px; }
+    .card-stack .job-card-title    { font-size: 1.25rem; }
+    .card-stack .job-card-company  { font-size: 1.15rem; }
+    .card-stack .job-card-location { font-size: 1.05rem; }
+    .card-stack .job-card-level    { font-size: 1.1rem; padding: 3px 12px; }
+    .card-stack .job-card-icon     { font-size: 1.35rem; }
+    .card-stack .job-card-row      { gap: 10px; margin-bottom: 12px; }
+    .card-stack .job-card-body     { margin-bottom: 15px; }
+    .card-stack .job-card-stats    { gap: 20px; margin-bottom: 12px; }
+    .card-stack .job-card-stat-value { font-size: 0.92rem; }
+    .card-stack .job-card-tags-label { font-size: 0.9rem; margin-bottom: 8px; }
+    .card-stack .tag               { font-size: 0.90rem; padding: 4px 24px; }
+    .card-stack .contract-badge    { font-size: 1.1rem; padding: 2px 10px; }
+    .card-stack .suit-corner       { font-size: 2.2rem; }
+    .card-stack .job-card-header   { margin-bottom: 12px; }
+
+    .action-btn {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        font-size: 2.1rem;
+    }
+
+    .mobile-actions {
+        display: none;
+    }
+
+    .panel-tab-btn.right {
+        display: flex;
+        top: 20%;
+        right: 40px;
+        padding: 16px;
+    }
+    .panel-tab-btn.left {
+        top: 20%;
+        left: 40px;
+        padding: 16px;
+    }
+
+    .slide-panel {
+        top: 112px;
+        bottom: 48px;
+        width: 45%;
+        border-radius: 45px;
+    }
+    .slide-panel.left-panel {
+        left: 32px;
+        transform: translateX(-120%);
+    }
+    .slide-panel.right-panel {
+        right: 32px;
+        transform: translateX(120%);
+    }
+    .slide-panel.open {
+        transform: translateX(0);
+    }
+
+    .panel-inner {
+        padding: 48px;
+    }
+
+    #cardArea.shift-right {
+        transform: translateX(34%) scale(0.75);
+    }
+    #cardArea.shift-left {
+        transform: translateX(-34%) scale(0.75);
+    }
+}x
+/*///////////////////////////////////// WISHLIST SPECIFIC ////////////////////////////////*/
+
+.wishlist-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+}
+.wishlist-title {
+    font-size: 1.9rem;
+    font-weight: 900;
+    color: white;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.wishlist-count {
+    background: white;
+    color: #38425b;
+    font-weight: 800;
+    font-size: 0.875rem;
+    padding: 6px 18px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.wishlist-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: center;
+    @media screen and (min-width :720px){
+        justify-content: left;
+    }
+}
+
+.wishlist-grid .card-wrap {
+    position: relative;
+    width: 283px;
+    height: 385px;
+}
+.wishlist-grid .card-wrap .job-card {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.wishlist-grid .card-wrap .job-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.12);
+    z-index: 10;
+}
+
+.add-card {
+    width: 283px;
+    height: 385px;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.30);
+    border: 2.5px dashed rgba(255,255,255,0.75);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    text-decoration: none;
+}
+.add-card:hover {
+    background: rgba(255,255,255,0.48);
+    transform: translateY(-4px);
+}
+.add-card .plus-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.80);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #38425b;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.add-card .add-label {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #38425b;
+}
+
+/* ── Modal d'information Wishlist ── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(4px);
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+.modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+.modal-panel {
+    background: rgba(212, 230, 217, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 28px;
+    border: 1.5px solid rgba(255,255,255,0.6);
+    width: 480px;
+    max-width: 92vw;
+    max-height: 86vh;
+    overflow-y: auto;
+    padding: 48px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.20);
+    transform: translateY(30px) scale(0.96);
+    transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(50,61,82,0.25) transparent;
+}
+.modal-overlay.open .modal-panel {
+    transform: translateY(0) scale(1);
+}
+.modal-panel::-webkit-scrollbar {
+    width: 6px;
+}
+.modal-panel::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 28px 0;
+}
+.modal-panel::-webkit-scrollbar-thumb {
+    background: rgba(50,61,82,0.22);
+    border-radius: 999px;
+}
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+.modal-actions-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+}
+.modal-close-icon {
+    position: sticky;
+    float: right;
+    top: 0;
+    right: 0;
+    margin-top: -30px;
+    margin-right: -25px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #323D52;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.2s;
+    z-index: 1000;
+    line-height: 1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.modal-close-icon:hover {
+    opacity: 1;
+    background: white;
+    transform: scale(1.1);
+}
+#applyForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+.cv-selector-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.cv-selector-container label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #323D52;
+}
+.cv-select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(50, 61, 82, 0.2);
+    background-color: white;
+    font-size: 1rem;
+    color: #323D52;
+}
+.btn-modal-apply {
+    width: 100%;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.btn-modal-apply:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+.btn-modal-remove {
+    flex: 1;
+    padding: 11px;
+    border-radius: 12px;
+    border: 2px solid #e74c3c;
+    background: white;
+    color: #e74c3c;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.btn-modal-remove.full-width {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+}
+.btn-modal-remove:hover {
+    background: #fff5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2);
+}
+.btn-modal-close {
+    flex: 1;
+    padding: 11px;
+    border-radius: 12px;
+    border: none;
+    background: #323D52;
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.btn-modal-close:hover {
+    background: #4a5568;
+}
+
+.btn-remove {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 20;
+    background: white;
+    color: #e74c3c;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.btn-remove:hover {
+    background: #fff5f5;
+    transform: scale(1.1);
+    transition: 0.2s;
+}
+
+
+
+/*///////////////////////////////////// PROFIL SEARCH SPECIFIC ////////////////////////////////*/
+
+/* ── Cards (profil_search overrides) ── */
+.profil-search .wishlist-grid {
+    justify-content: flex-start;
+    padding: 10px 0;
+}
+
+.profil-search .card-wrap {
+    width: 240px;
+    height: 325px;
+    flex-shrink: 0;
+}
+
+.profil-search .job-card {
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    height: 100%;
+    cursor: pointer;
+    border: 1px solid #eee;
+}
+
+.profil-search .suit-tl { top: 5px; left: 10px; }
+.profil-search .suit-br { bottom: 5px; right: 10px; }
+
+/* ── Page layout ── */
+.page-bg {
+    min-height: 100vh;
+    background-color: #9dc0a3;
+    padding: 1px 0;
+}
+
+.swiply-wrapper {
+    max-width: 860px;
+    margin: 30px auto;
+    padding: 40px 20px;
+    font-family: sans-serif;
+}
+
+/* ── Header profil ── */
+.profil-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 20px;
+}
+
+.brand-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatar-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    border: 3px solid white;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-circle svg { width: 50px; height: 50px; color: #888; }
+
+.company-name { font-size: 2rem; font-weight: bold; color: #000; margin: 0 0 4px; }
+.company-city { font-size: 1rem; color: #333; margin: 0; }
+
+/* ── Rating ── */
+.rating-block { text-align: center; min-width: 160px; }
+.rating-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; color: #111; }
+
+.stars-input { display: flex; flex-direction: row-reverse; justify-content: center; gap: 3px; }
+.stars-input input[type="radio"] { display: none; }
+.stars-input label { font-size: 1.6rem; color: rgba(255,255,255,0.6); cursor: pointer; transition: color 0.15s; }
+.stars-input:not(.disabled) input:checked ~ label,
+.stars-input:not(.disabled) label:hover,
+.stars-input:not(.disabled) label:hover ~ label { color: #f5a623; }
+.stars-input.disabled label { pointer-events: none; }
+.stars-input.disabled input:checked ~ label { color: #f5a623; }
+
+.btn-rate {
+    padding: 4px 14px; background-color: #4a7a5a; color: white;
+    border: none; border-radius: 20px; cursor: pointer;
+    font-size: 0.8rem; width: 100%; margin-top: 4px;
+}
+.btn-rate:disabled { background-color: rgba(0,0,0,0.2); cursor: not-allowed; }
+.already-rated-msg { font-size: 0.72rem; color: #444; margin-top: 4px; }
+.alert-success { color: #1a4a2a; font-size: 0.8rem; margin-top: 4px; font-weight: 600; }
+
+/* ── Info grid ── */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.info-tile {
+    background-color: white;
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.info-tile .tile-label { font-size: 0.82rem; color: #666; margin: 0 0 6px; }
+.info-tile .tile-value { font-size: 1rem; font-weight: 700; color: #111; margin: 0; }
+.tile-icon { font-size: 1.4rem; margin-bottom: 8px; display: block; }
+
+.tile-stars { display: flex; align-items: center; gap: 2px; margin-bottom: 8px; }
+.tile-stars span { font-size: 1.9rem; color: #f5a623; }
+.tile-stars span.empty { color: #ccc; }
+
+/* ── Bloc présentation / offres ── */
+.presentation-block {
+    background-color: white;
+    border-radius: 20px;
+    padding: 30px 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.presentation-block h3 {
+    font-size: 1.1rem; font-weight: 700; color: #111;
+    margin: 0 0 14px; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.presentation-block p { font-size: 1rem; color: #333; line-height: 1.7; margin: 0; }
+
+/* ── Modal (profil_search specific overrides) ── */
+.profil-search .modal-overlay {
+    z-index: 9999;
+}
+
+.profil-search .modal-panel {
+    padding: 40px;
+}
+
+.profil-search .panel-header {
+    margin-bottom: 20px;
+}
+
+.profil-search .panel-title {
+    font-size: 1.8rem;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.profil-search .panel-divider {
+    margin-bottom: 20px;
+}
+
+.profil-search .detail-row {
+    padding: 10px 0;
+}
+
+.profil-search .modal-actions {
+    flex-direction: column;
+}
+
+.btn-wishlist-add {
+    width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #4a7a5a;
+    background: white; color: #4a7a5a; font-weight: 800; cursor: pointer; font-size: 0.9rem;
+    transition: background 0.15s, color 0.15s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-wishlist-add:hover { background: #4a7a5a; color: white; }
+.btn-wishlist-add.already-in {
+    border-color: #aaa; color: #aaa; cursor: not-allowed;
+    background: #f5f5f5;
+}
+.btn-wishlist-add.already-in:hover { background: #f5f5f5; color: #aaa; }
+
+.btn-delete-user {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 30px auto 10px;
+    padding: 12px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s;
+}
+
+.btn-delete-user:hover {
+    background-color: #cc0000;
+}
+
+
+/*///////////////////////////////////// PROFIL PILOTE & STUDENT (Shared lk-*) ////////////////////////////////*/
+
+.lk-wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.lk-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.lk-banner {
+    height: 100px;
+}
+
+.lk-header-body {
+    padding: 0 24px 24px;
+    position: relative;
+}
+
+.lk-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid white;
+    background-color: #d1d5db;
+    overflow: hidden;
+    position: absolute;
+    top: -50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lk-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.lk-avatar svg { width: 50px; height: 50px; color: #6b7280; }
+
+.lk-header-info { padding-top: 60px; }
+
+.lk-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 4px;
+}
+
+.lk-subtitle { font-size: 0.95rem; color: #444; margin: 0 0 4px; }
+.lk-meta { font-size: 0.85rem; color: #666; margin: 0; }
+
+.lk-tag {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.lk-section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+    padding: 20px 24px 0;
+}
+
+.lk-divider { height: 1px; background: #e5e7eb; margin: 0 24px; }
+
+.lk-info-list {
+    padding: 8px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lk-info-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: #333;
+}
+.lk-info-row .info-icon {
+    font-size: 1.1rem;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+}
+.lk-info-row strong { color: #111; margin-right: 4px; }
+
+.info-icon { font-size: 1.1rem; width: 24px; text-align: center; flex-shrink: 0; }
+
+.lk-stats {
+    display: grid;
+    gap: 0;
+    padding: 16px 24px 20px;
+}
+
+.lk-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 12px;
+    border-right: 1px solid #e5e7eb;
+}
+.lk-stat-item:last-child { border-right: none; }
+.lk-stat-icon { font-size: 1.2rem; }
+.lk-stat-label { font-size: 0.78rem; color: #666; margin: 0; }
+.lk-stat-value { font-size: 0.95rem; font-weight: 700; color: #111; margin: 0; }
+
+
+/*///////////////////////////////////// PROFIL PILOTE SPECIFIC ////////////////////////////////*/
+
+.pilote-profile .lk-banner {
+    background: linear-gradient(135deg, #3a5f4a, #5a8a6a);
+}
+
+.pilote-profile .lk-tag {
+    background-color: #e0ece4;
+    color: #2d5a3d;
+}
+
+.pilote-profile .lk-stats {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+
+/*///////////////////////////////////// PROFIL STUDENT SPECIFIC ////////////////////////////////*/
+
+.student-profile .lk-banner {
+    background: linear-gradient(135deg, #5a8a6a, #7fad8c);
+}
+
+.student-profile .lk-tag {
+    background-color: #e8f4ec;
+    color: #3a6e4a;
+}
+
+.student-profile .lk-stats {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.student-profile .lk-section-title {
+    margin: 0 0 16px;
+    padding: 20px 24px 0;
+}
+
+
+/*///////////////////////////////////// ABOUT PAGE ////////////////////////////////*/
+
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-rection: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.scroll-content {
+    position: relative;
+    margin-top: 70vh;
+    background: white;
+    padding: 100px 20px;
+    min-height: 100vh;
+    z-index: 10;
+    border-radius: 50px 50px 0 0;
+    box-shadow: 0 -20px 30px rgba(0,0,0,0.1);
+}
+
+/*///////////////////////////////////// FORM CREATION OFFRE ////////////////////////////////*/
+
+.offer-form-card {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    /* .job-card gère déjà le background, border-radius, box-shadow, et overflow */
+}
+
+.form-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #323D52;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.form-grid {
+    display: grid;
+    /* Adaptabilité mobile : 1 colonne sur petit écran, 2 sur grand */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.offer-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mb-25 { margin-bottom: 25px; }
+.mb-30 { margin-bottom: 30px; }
+
+.form-label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+    color: #333;
+}
+
+.form-control:focus {
+    border-color: #38425b;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(56, 66, 91, 0.1);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* ── Tags selection (Pure CSS) ── */
+.tag-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-checkbox {
+    cursor: pointer;
+}
+
+.tag-selectable {
+    border: 1px solid #ddd;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+/* Magie CSS : change l'apparence du tag quand la checkbox cachée est cochée */
+.tag-input:checked + .tag-selectable {
+    background: #38425b;
+    color: white;
+    border-color: #38425b;
+}
+
+.btn-show-more {
+    margin-top: 10px;
+    background: none;
+    border: none;
+    color: #323D52;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+}
+
+.error-msg {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: none;
+    font-weight: 600;
+}
+
+/* ── Actions / Boutons ── */
+.form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    @media screen {max-width: 400px; justify-content: left}
+}
+
+.btn-cancel {
+    background: #eee;
+    color: #666;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 14px;
+    transition: background 0.2s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-cancel:hover {
+    background: #e0e0e0;
+}
+
+.btn-submit {
+    background: #38425b;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    font-weight: 600;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    @media screen {max-width: 400px; padding: 9px 15px}
+}
+
+.btn-submit:hover {
+    background: #2a3245;
+}
+
+.btn-submit:active {
+    transform: translateY(2px);
+}
+
+/* Augmenter la taille des symboles spécifiquement pour la carte du formulaire */
+.offer-form-card .suit-corner {
+    font-size: 6rem;
+    @media screen {max-width: 400px; font-size:3rem}
+}
+
+.offer-form-card .suit-tl {
+    top: 15px;
+    left: 30px;
+    @media screen {max-width: 400px; top: 10px; left: 15px;}
+}
+.offer-form-card .suit-br {
+    bottom: 15px;
+    right: 15px;
+}
+

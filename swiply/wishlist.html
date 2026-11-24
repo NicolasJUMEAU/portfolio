@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Wishlist – Swiply (démo)</title>
+    <link rel="icon" href="images/logos/logo.png">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/tailwind.css">
+    <script src="js/db.js"></script>
+</head>
+<body class="flex flex-col min-h-screen">
+<div class="flex min-h-screen pt-16 bg-[#88B395]">
+    <div id="sidebar"></div>
+    <main class="flex-1 ml-0 md:ml-[280px] lg:ml-[25%] p-5 md:p-10 min-h-[calc(100vh-4rem)]">
+        <div class="swipe-wishlist-container">
+            <div class="wishlist-header">
+                <h1 class="wishlist-title">❤️ Ma Wishlist</h1>
+                <br>
+                <span class="wishlist-count" id="wishlistCount"></span>
+            </div>
+            <br>
+            <div class="wishlist-grid" id="wishlistGrid"></div>
+            <div id="modal"></div>
+            <div id="toast"></div>
+        </div>
+    </main>
+</div>
+<script src="js/layout.js"></script>
+<script>
+    document.getElementById('sidebar').outerHTML = studentSidebar('wishlist');
+    let currentId = null;
+
+    function render() {
+        const items = SwiplyDB.wishlist();
+        document.getElementById('wishlistCount').textContent = `${items.length} offre${items.length > 1 ? 's' : ''}`;
+        const grid = document.getElementById('wishlistGrid');
+        if (!items.length) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">🃏</div>
+                    <p class="empty-title">Votre wishlist est vide</p>
+                    <p class="empty-sub">Swipez des offres à droite pour les retrouver ici.</p>
+                    <a href="swipe.html" class="btn-go-swipe">Découvrir des offres →</a>
+                </div>`;
+            return;
+        }
+        grid.innerHTML = items.map(job => `
+            <div class="card-wrap" id="wrap-${job.id}">
+                <button type="button" class="btn-remove" title="Retirer de la wishlist" onclick="removeCard(${job.id})">✕</button>
+                <div class="job-card" onclick="openOffer(${job.id})">${miniCardHtml(job)}</div>
+            </div>`).join('') + `
+            <a href="swipe.html" class="add-card"><div class="plus-icon">+</div><span class="add-label">Découvrir plus</span></a>`;
+    }
+
+    function openOffer(id) {
+        currentId = id;
+        openModalWith(SwiplyDB.offer(id));
+        const applied = SwiplyDB.applications().some(a => a.offer_id === id);
+        const btn = document.getElementById('applyBtn');
+        btn.disabled = applied;
+        btn.textContent = applied ? '✓ Déjà postulé' : '✉️ Postuler';
+    }
+
+    function removeCard(id) {
+        const wrap = document.getElementById('wrap-' + id);
+        wrap.style.transition = 'opacity 0.3s, transform 0.3s';
+        wrap.style.opacity = '0';
+        wrap.style.transform = 'scale(0.88)';
+        SwiplyDB.removeFromWishlist(id);
+        showToast('✓ Offre retirée de la wishlist');
+        setTimeout(render, 320);
+    }
+
+    SwiplyDB.load().then(() => {
+        const cvs = SwiplyDB.cvs();
+        document.getElementById('modal').outerHTML = modalHtml(`
+            <form id="applyForm">
+                <div class="cv-selector-container">
+                    <label for="cv_id">Choisir un CV :</label>
+                    <select name="cv_id" id="cv_id" class="cv-select" required>
+                        ${cvs.length ? cvs.map(cv => `<option value="${cv.id}">${esc(cv.name)}</option>`).join('') : '<option value="">Aucun CV disponible</option>'}
+                    </select>
+                </div>
+                <button type="submit" class="btn-modal-apply" id="applyBtn">✉️ Postuler</button>
+            </form>
+            <button class="btn-modal-remove full-width" onclick="const id = currentId; closeModal(); removeCard(id);">✕ Retirer de la wishlist</button>`);
+        document.getElementById('applyForm').addEventListener('submit', e => {
+            e.preventDefault();
+            if (SwiplyDB.apply(currentId, document.getElementById('cv_id').value)) {
+                closeModal();
+                showToast('✉️ Candidature envoyée !');
+            }
+        });
+        render();
+    });
+</script>
+</body>
+</html>

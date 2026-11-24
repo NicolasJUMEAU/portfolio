@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes candidatures – Swiply (démo)</title>
+    <link rel="icon" href="images/logos/logo.png">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/tailwind.css">
+    <script src="js/db.js"></script>
+</head>
+<body class="flex flex-col min-h-screen">
+<div class="flex min-h-screen pt-16 bg-[#88B395]">
+    <div id="sidebar"></div>
+    <main class="flex-1 ml-0 md:ml-[280px] lg:ml-[25%] p-5 md:p-10 min-h-[calc(100vh-4rem)]">
+        <div class="swipe-wishlist-container">
+            <div class="wishlist-header">
+                <h1 class="wishlist-title">📨 Mes Candidatures</h1>
+                <br>
+                <span class="wishlist-count" id="wishlistCount"></span>
+            </div>
+            <br>
+            <div class="wishlist-grid" id="wishlistGrid"></div>
+            <div id="modal"></div>
+            <div id="toast"></div>
+        </div>
+    </main>
+</div>
+<script src="js/layout.js"></script>
+<script>
+    document.getElementById('sidebar').outerHTML = studentSidebar('applications');
+
+    // Pas d'entreprise réelle pour répondre : au bout d'une minute, la démo simule une réponse.
+    function status(app) {
+        if (Date.now() - app.at < 60000) return null;
+        return [null, true, false][app.offer_id % 3];
+    }
+    const BADGES = {
+        null: '<span class="status-badge status-pending">En attente</span>',
+        true: '<span class="status-badge status-accepted">Acceptée</span>',
+        false: '<span class="status-badge status-rejected">Refusée</span>',
+    };
+
+    function render() {
+        const apps = SwiplyDB.applications();
+        document.getElementById('wishlistCount').textContent = `${apps.length} candidature${apps.length > 1 ? 's' : ''}`;
+        const grid = document.getElementById('wishlistGrid');
+        if (!apps.length) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📩</div>
+                    <p class="empty-title">Aucune candidature</p>
+                    <p class="empty-sub">Likez des offres, puis postulez depuis votre wishlist.</p>
+                    <a href="wishlist.html" class="btn-go-swipe">Voir ma wishlist →</a>
+                </div>`;
+            return;
+        }
+        grid.innerHTML = apps.map(app => {
+            const s = status(app);
+            return `
+            <div class="card-wrap" id="wrap-${app.id}">
+                ${s === null ? `<button type="button" class="btn-remove" title="Retirer la candidature" onclick="removeApp(${app.id})">✕</button>` : ''}
+                <div class="job-card" onclick="openApp(${app.id})">${miniCardHtml(app.offer, BADGES[s])}</div>
+            </div>`;
+        }).join('') + `
+            <a href="swipe.html" class="add-card"><div class="plus-icon">+</div><span class="add-label">Postuler encore</span></a>`;
+    }
+
+    function openApp(id) {
+        const app = SwiplyDB.applications().find(a => a.id === id);
+        openModalWith(app.offer);
+        document.getElementById('modalActions').innerHTML = `
+            <div class="modal-section" style="margin-top:0">
+                <div class="modal-section-title">Ma candidature</div>
+                <p class="modal-description-text">${BADGES[status(app)]} &nbsp;CV envoyé : ${esc(app.cv?.name || 'CV inconnu')}</p>
+            </div>`;
+    }
+
+    function removeApp(id) {
+        const wrap = document.getElementById('wrap-' + id);
+        wrap.style.transition = 'opacity 0.3s, transform 0.3s';
+        wrap.style.opacity = '0';
+        wrap.style.transform = 'scale(0.88)';
+        SwiplyDB.removeApplication(id);
+        showToast('✓ Candidature retirée');
+        setTimeout(render, 320);
+    }
+
+    SwiplyDB.load().then(() => {
+        document.getElementById('modal').outerHTML = modalHtml();
+        render();
+    });
+</script>
+</body>
+</html>
