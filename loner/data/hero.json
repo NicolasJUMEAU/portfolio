@@ -1,0 +1,38 @@
+{
+  "simple": {
+    "name": "Hero",
+    "hp": 120,
+    "attack": [5, 10],
+    "defense": 5,
+    "dodge": 5,
+    "initiative": 20,
+    "texture": "assets/Image_projet_jeu/heros/simple_unarmed.png"
+  },
+  "guerrier": {
+    "name": "Guerrier",
+    "hp": 150,
+    "attack": [7, 12],
+    "defense": 7,
+    "dodge": 2,
+    "initiative": 5,
+    "texture": "assets/Image_projet_jeu/heros/guerrier_unarmed.png"
+  },
+  "archer": {
+    "name": "Archer",
+    "hp": 120,
+    "attack": [5, 10],
+    "defense": 5,
+    "dodge": 20,
+    "initiative": 100,
+    "texture": "assets/Image_projet_jeu/heros/archer_unarmed.png"
+  },
+  "mage": {
+    "name": "Mage",
+    "hp": 120,
+    "attack": [5, 10],
+    "defense": 5,
+    "dodge": 10,
+    "initiative": 20,
+    "texture": "assets/Image_projet_jeu/heros/mage_unarmed.png"
+  }
+}

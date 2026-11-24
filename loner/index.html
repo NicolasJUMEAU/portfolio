@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Path of the Loner – démo jouable</title>
+<meta name="description" content="Version JavaScript jouable du jeu Path of the Loner, RPG viking développé en C++ avec SFML.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quintessential&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Écran titre -->
+<section id="screen-title" class="screen bg" style="--bg:url(img/accueil_start.webp)">
+  <div class="title-box">
+    <h1>Path of the Loner</h1>
+    <p class="tagline">Un RPG viking au tour par tour. Explorez le donjon, survivez aux monstres et trouvez la salle du trésor.</p>
+    <button class="btn big" id="btn-start">Jouer</button>
+    <p class="note">Version JavaScript simplifiée du jeu C++ / SFML réalisé par Abderrazek, Nicolas et Laurent.<br>
+      <a href="https://github.com/NicolasJUMEAU/cpp-path-of-the-loner" target="_blank" rel="noopener">Code complet sur GitHub</a> · <a href="../#loner">Retour au portfolio</a></p>
+  </div>
+</section>
+
+<!-- Choix du héros -->
+<section id="screen-heroes" class="screen bg" style="--bg:url(img/accueil_pve.webp)" hidden>
+  <div class="heroes-box">
+    <h2>Choisissez votre héros</h2>
+    <div class="hero-list" id="hero-list"></div>
+    <button class="btn ghost" id="btn-back">← Retour</button>
+  </div>
+</section>
+
+<!-- Jeu -->
+<section id="screen-game" class="screen" hidden>
+  <div class="game">
+    <div class="stage-wrap">
+      <div class="stage" id="stage">
+        <div class="room-label" id="room-label"></div>
+        <div class="fighter hero-side" id="hero-side">
+          <div class="bar"><span class="fill" id="hero-bar"></span><b id="hero-bar-txt"></b></div>
+          <div class="sprite hero-sprite" id="hero-sprite"></div>
+        </div>
+        <div class="fighter enemy-side" id="enemy-side" hidden>
+          <div class="bar"><span class="fill" id="enemy-bar"></span><b id="enemy-bar-txt"></b></div>
+          <div class="enemy-name" id="enemy-name"></div>
+          <img class="sprite enemy-sprite" id="enemy-img" alt="">
+        </div>
+        <img class="merchant-img" id="merchant-img" src="img/marchand.webp" alt="Le marchand" hidden>
+        <button class="door door-up" data-dir="up" aria-label="Aller au nord">▲</button>
+        <button class="door door-down" data-dir="down" aria-label="Aller au sud">▼</button>
+        <button class="door door-left" data-dir="left" aria-label="Aller à l'ouest">◀</button>
+        <button class="door door-right" data-dir="right" aria-label="Aller à l'est">▶</button>
+      </div>
+      <div class="actions" id="actions"></div>
+    </div>
+
+    <aside class="panel">
+      <div class="card">
+        <h3>Carte du donjon</h3>
+        <div class="map" id="map"></div>
+        <ul class="legend">
+          <li><i style="background:#b33e3e"></i>Monstre</li>
+          <li><i style="background:#802828"></i>Élite</li>
+          <li><i style="background:#5c2020"></i>Boss</li>
+          <li><i style="background:#255e38"></i>Marchand</li>
+          <li><i style="background:#ffdb4a"></i>Trésor</li>
+          <li><i style="background:#646464"></i>Vaincu</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 id="hero-title"></h3>
+        <dl class="stats" id="stats"></dl>
+      </div>
+      <div class="card log-card">
+        <h3>Journal</h3>
+        <ol class="log" id="log"></ol>
+      </div>
+      <p class="help">Clavier : flèches ou ZQSD pour se déplacer, Espace pour attaquer, F pour fuir.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- Fin de partie -->
+<div class="overlay" id="overlay" hidden>
+  <div class="modal">
+    <img id="end-img" alt="">
+    <h2 id="end-title"></h2>
+    <p id="end-text"></p>
+    <div class="modal-actions">
+      <button class="btn" id="btn-replay">Rejouer</button>
+      <a class="btn ghost" href="../#loner">Retour au portfolio</a>
+    </div>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

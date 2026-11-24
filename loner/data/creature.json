@@ -1,0 +1,99 @@
+{
+  "bestiary": [
+    {
+      "//": "--- NIVEAU 1 (FACILE) ---",
+      "type": "Creature",
+      "name": "Ours polaire",
+      "level_loot": 1,
+      "scale": 0.35,
+      "pos_x": 300,
+      "pos_y": 150,
+      "stats": { "hp": 50, "atk": 5, "def": 0, "dodge": 5, "init": 10 },
+      "texture": "assets/Image_projet_jeu/monstres/ours_polaire.png"
+    },
+    {
+      "type": "Creature",
+      "name": "Horde de nains",
+      "level_loot": 1,
+      "scale": 0.20,
+      "pos_x": 320,
+      "pos_y": 110,
+      "stats": { "hp": 45, "atk": 8, "def": 2, "dodge": 10, "init": 12 },
+      "texture": "assets/Image_projet_jeu/monstres/horde_de_nains.png"
+    },
+    {
+      "type": "Creature",
+      "name": "Squelette",
+      "level_loot": 1,
+      "scale": 0.25,
+      "pos_x": 345,
+      "pos_y": 130,
+      "stats": { "hp": 60, "atk": 4, "def": 1, "dodge": 0, "init": 5 },
+      "texture": "assets/Image_projet_jeu/monstres/skelette.png"
+    },
+
+    {
+      "//": "--- NIVEAU 2 (MOYEN) ---",
+      "type": "Creature",
+      "name": "Huldra",
+      "level_loot": 2,
+      "scale": 0.2,
+      "pos_x": 345,
+      "pos_y": 130,
+      "stats": { "hp": 120, "atk": 15, "def": 5, "dodge": 5, "init": 8 },
+      "texture": "assets/Image_projet_jeu/monstres/huldra.png"
+    },
+    {
+      "type": "Creature",
+      "name": "Jotnar",
+      "level_loot": 2,
+      "scale": 0.32,
+      "pos_x": 345,
+      "pos_y": 130,
+      "stats": { "hp": 90, "atk": 18, "def": 3, "dodge": 15, "init": 15 },
+      "texture": "assets/Image_projet_jeu/monstres/jotnar.png"
+    },
+    {
+      "type": "Creature",
+      "name": "Elf noir",
+      "level_loot": 2,
+      "scale": 0.2,
+      "pos_x": 345,
+      "pos_y": 130,
+      "stats": { "hp": 80, "atk": 20, "def": 2, "dodge": 20, "init": 25 },
+      "texture": "assets/Image_projet_jeu/monstres/elf_noir.png"
+    },
+
+    {
+      "//": "--- NIVEAU 3 (DIFFICILE) ---",
+      "type": "Creature",
+      "name": "Fenrir",
+      "level_loot": 3,
+      "scale": 0.45,
+      "pos_x": 250,
+      "pos_y": 60,
+      "stats": { "hp": 120, "atk": 25, "def": 10, "dodge": 0, "init": 5 },
+      "texture": "assets/Image_projet_jeu/monstres/fenrir.png"
+    },
+    {
+      "type": "Creature",
+      "name": "Fafnir",
+      "level_loot": 3,
+      "scale": 0.6,
+      "pos_x": 150,
+      "pos_y": 10,
+      "stats": { "hp": 150, "atk": 30, "def": 20, "dodge": 10, "init": 18 },
+      "texture": "assets/Image_projet_jeu/monstres/fafnir.png"
+    },
+    {
+      "type": "Creature",
+      "name": "Surt",
+      "level_loot": 3,
+      "scale": 0.45,
+      "pos_x": 160,
+      "pos_y": 20,
+      "stats": { "hp": 150, "atk": 30, "def": 30, "dodge": 0, "init": 2 },
+      "texture": "assets/Image_projet_jeu/monstres/surt.png"
+    }
+  ]
+}
