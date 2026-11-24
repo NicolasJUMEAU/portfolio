@@ -106,15 +106,30 @@
   .game-cover:hover img { transform: scale(1.04); }
   .game-cover:hover span { background: rgba(0,0,0,.85); }
 
-  /* Graphe */
+  /* Optimisation (CVRP) */
   #optim { gap: 4vw; }
   .graph-wrap { flex: 1 1 380px; max-width: 520px; }
-  .graph-wrap .note { font-size: .85rem; margin-bottom: 4px; }
-  .graph-wrap svg { width: 100%; height: auto; cursor: pointer; }
-  .graph-wrap .hint { font-size: .78rem; color: var(--muted); text-align: center; }
-  .edge { stroke: #d6d6d6; stroke-width: 4; stroke-linecap: round; }
-  .route { stroke: #e86a6a; stroke-width: 5; stroke-linecap: round; }
-  .node { fill: #999; }
+  .stats { display: flex; gap: 18px; justify-content: flex-end; flex-wrap: wrap; margin: 18px 0; }
+  .stats div { text-align: right; }
+  .stats b { display: block; font-size: 1.5rem; font-weight: 600; line-height: 1.1; }
+  .stats span { display: block; font-size: .75rem; line-height: 1.3; color: var(--muted); margin-top: 4px; }
+  .methods { display: flex; gap: 4px; background: rgba(0,0,0,.06); border-radius: 999px; padding: 4px; margin-bottom: 8px; }
+  .methods button {
+    flex: 1; border: none; background: none; border-radius: 999px; padding: 7px 6px;
+    font: inherit; font-size: .8rem; color: var(--ink); cursor: pointer; transition: background .2s;
+  }
+  .methods button.on { background: #fff; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+  .graph-wrap svg { width: 100%; height: auto; display: block; background: #fff; border-radius: 6px; }
+  .graph-wrap .route { fill: none; stroke-width: 7; stroke-linejoin: round; stroke-linecap: round; }
+  .graph-wrap .client { fill: #fff; stroke: #555; stroke-width: 3; }
+  .graph-wrap .depot { fill: var(--ink); }
+  .result { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 8px; font-size: .9rem; }
+  .result strong { font-size: 1.15rem; }
+  .result .gain { color: #2e7d4f; font-weight: 600; }
+  .graph-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 6px; }
+  .graph-foot p { font-size: .75rem; color: var(--muted); }
+  .graph-foot button { flex: none; }
+  .legend-depot { display: inline-block; width: 9px; height: 9px; background: var(--ink); vertical-align: middle; }
 
   /* ---------- Contact ---------- */
   #contact { background: #d3f7de; flex-direction: column; align-items: flex-start; justify-content: space-between; }
@@ -135,6 +150,8 @@
     section { padding: 80px 6vw 48px; min-height: auto; }
     .project, .project.reverse { flex-direction: column; align-items: stretch; }
     .project.reverse .text { text-align: left; }
+    #optim .stats { justify-content: flex-start; }
+    #optim .stats div { text-align: left; }
     .project.reverse .tags { justify-content: flex-start; }
     .hero-right { text-align: left; margin-left: 0; }
   }
@@ -230,15 +247,31 @@
   <!-- OPTIMISATION -->
   <section class="project reverse" data-side="#e2e0f5" data-bg="#fff6f5" id="optim">
     <div class="text">
-      <h2>Optimisation<br>de livraison</h2>
-      <div class="tags"><span>Python</span><span>Algorithmique</span><span>CVRP</span></div>
-      <p>Projet d'optimisation de tournées de livraison : un script prend une instance en entrée et renvoie les tournées.</p>
-      <p>Le graphe ci-contre est une démonstration : les solutions sont précalculées, sans résolution en direct.</p>
+      <h2>Optimisation<br>de tournées</h2>
+      <div class="tags"><span>Python</span><span>PLNE</span><span>Recuit simulé</span><span>CVRP</span></div>
+      <p>Projet de 3<sup>e</sup> année réalisé en équipe de quatre : organiser les tournées de camions de même capacité qui partent d'un dépôt, livrent chaque client une seule fois et reviennent au dépôt, en roulant le moins possible (problème CVRP, NP-difficile).</p>
+      <p>Nous avons écrit un modèle exact (PLNE avec PuLP) pour les petits cas, puis un recuit simulé qui part de la solution de Clarke &amp; Wright et l'améliore avec cinq mouvements (relocate, swap, 2-opt, 2-opt*). Il a été testé sur 20 instances de référence CVRPLIB.</p>
+      <div class="stats">
+        <div><b>4,8 %</b><span>d'écart moyen à la<br>meilleure solution connue</span></div>
+        <div><b>−13,7 %</b><span>de distance en moyenne<br>face au plus proche voisin</span></div>
+        <div><b>15 000</b><span>clients sur la plus<br>grande instance</span></div>
+      </div>
     </div>
     <div class="graph-wrap">
-      <p class="note">Graphe en boucle : un clic génère une nouvelle instance et anime la tournée.</p>
-      <svg id="graph" viewBox="0 0 400 300" role="img" aria-label="Graphe de livraison interactif"></svg>
-      <p class="hint">Cliquer dessus pour résoudre</p>
+      <div class="methods" role="tablist" aria-label="Méthode de résolution">
+        <button type="button" data-m="0">Plus proche voisin</button>
+        <button type="button" data-m="1">Clarke &amp; Wright</button>
+        <button type="button" data-m="2">Recuit simulé</button>
+      </div>
+      <svg id="graph" viewBox="-40 -40 1080 1080" role="img" aria-label="Tournées de livraison : le dépôt au centre, une couleur par camion"></svg>
+      <div class="result">
+        <span id="r-info"></span>
+        <span id="r-gain" class="gain"></span>
+      </div>
+      <div class="graph-foot">
+        <p><span class="legend-depot"></span> dépôt · ○ client · une couleur par camion.<br>30 clients, solutions précalculées avec le code du projet.</p>
+        <button type="button" class="btn small" id="next-inst">Autre instance</button>
+      </div>
     </div>
   </section>
 
@@ -302,45 +335,53 @@ document.querySelectorAll('[data-carousel]').forEach(c => {
   show();
 });
 
-/* ---------- Graphe : instances et solutions en dur ---------- */
-const instances = [
-  { nodes: [[60,60],[170,40],[300,70],[120,140],[250,150],[60,230],[180,240],[320,230]],
-    edges: [[0,1],[1,2],[0,3],[1,3],[1,4],[2,4],[3,5],[3,6],[4,6],[4,7],[5,6],[6,7]],
-    route: [0,1,4,7] },
-  { nodes: [[50,150],[140,60],[140,240],[240,150],[340,70],[340,230]],
-    edges: [[0,1],[0,2],[1,3],[2,3],[3,4],[3,5],[4,5],[2,5]],
-    route: [0,1,3,5] },
-  { nodes: [[200,40],[70,110],[330,110],[110,230],[290,230],[200,150]],
-    edges: [[0,1],[0,2],[1,3],[2,4],[3,4],[5,0],[5,1],[5,2],[5,3],[5,4]],
-    route: [0,1,3,4,2,0] }
-];
+/* ---------- Optimisation : tournées précalculées (Python, code du projet) ----------
+   xy : coordonnées (0 = dépôt), sol[m] : tournées de la méthode m, cost[m] : distance totale */
+const CVRP = [{"xy":[[500,500],[945,625],[684,898],[578,776],[834,225],[55,300],[285,874],[913,5],[500,822],[131,797],[119,468],[817,303],[341,278],[720,255],[991,445],[478,505],[583,554],[509,996],[808,793],[700,622],[341,989],[466,215],[845,160],[858,613],[114,43],[445,35],[141,515],[971,466],[809,918],[824,629],[441,514]],"dem":[0,27,50,38,25,100,2,10,20,97,70,89,21,73,37,49,1,62,84,67,16,54,27,97,89,19,51,94,85,71,64],"Q":337,"sol":[[[15,30,16,19,29,1,14,7,6],[12,21,25,24,5,26],[3,8,17,20,9,10,4],[13,11,22,27,2],[23,18,28]],[[14,27,1,23,29],[11,4,22,7,13,21,12],[25,24,5,10,26],[15,30,9,3,19,16],[18,28,2,17,20,6,8]],[[14,27,1,23,29],[8,17,20,6,9,30,15],[21,25,7,22,4,11,13],[3,2,28,18,19,16],[12,24,5,10,26]]],"cost":[10105,7562,6885]},{"xy":[[500,500],[862,492],[554,234],[392,67],[359,713],[762,813],[489,548],[942,634],[677,169],[927,554],[65,175],[900,507],[785,342],[94,963],[946,520],[287,202],[713,257],[190,550],[927,849],[294,337],[477,905],[749,240],[662,918],[4,729],[915,932],[11,951],[225,160],[739,702],[993,239],[804,614],[100,255]],"dem":[0,74,47,100,40,98,7,54,63,97,68,54,88,42,72,31,20,73,63,94,48,10,29,9,11,92,7,100,80,18,31],"Q":337,"sol":[[[6,4,20,22,5,27,24],[19,15,26,30,10,3],[2,8,16,21,12,1,29,23],[17,13,25,18,7],[11,14,9,28]],[[1,12,28,21,16,8],[2,17,23,25,13,4],[6,20,22,18,24,5],[11,14,9,7,29],[19,30,10,26,15,3],[27]],[[2,8,16,21,28,12],[3,15,26,10,30,19],[17,23,25,13,20,22,4],[1,11,14,9,29],[6,27,5,24,18,7]]],"cost":[9423,8076,7196]},{"xy":[[500,500],[777,956],[264,207],[793,829],[515,149],[833,513],[153,136],[411,689],[404,842],[8,425],[524,957],[235,826],[71,338],[749,576],[939,754],[915,827],[135,934],[845,145],[979,746],[314,139],[388,907],[786,226],[492,854],[641,306],[113,970],[234,518],[692,322],[517,282],[837,606],[176,334],[688,679]],"dem":[0,32,16,15,25,79,87,35,61,50,27,54,15,49,14,25,25,3,39,73,65,78,84,7,78,12,34,9,15,49,46],"Q":337,"sol":[[[7,8,20,22,10,1,3,14,17],[27,23,26,21,4,19,2,6],[13,28,5,30,15,18,11,16],[25,29,12,9,24]],[[25,9,12,29,2,6,19,4,27],[30,3,1,15,18,14,28,5,13],[7,8,26,21,17,23],[11,16,24,20,10,22]],[[11,16,24,20,8,7],[27,4,19,2,6,29,12,9,25],[22,10,1,3,15,14,18,28,30],[13,5,17,21,26,23]]],"cost":[8382,6454,5979]}];
+const METHODS = ['Plus proche voisin', 'Clarke & Wright', 'Recuit simulé'];
+const COLORS = ['#e86a6a', '#3b6fd4', '#2e9e6b', '#e0a030', '#9b59b6', '#17a2b8'];
 const svg = document.getElementById('graph');
 const NS = 'http://www.w3.org/2000/svg';
-let current = 0, timers = [];
+const fmt = n => n.toLocaleString('fr-FR');
+let inst = 0, method = 2;
 
 function el(tag, attrs) {
   const e = document.createElementNS(NS, tag);
   for (const k in attrs) e.setAttribute(k, attrs[k]);
   return e;
 }
-function draw(idx, animate) {
-  timers.forEach(clearTimeout); timers = [];
+function draw(animate) {
+  const g = CVRP[inst], tours = g.sol[method];
   svg.innerHTML = '';
-  const g = instances[idx];
-  g.edges.forEach(([a, b]) => svg.appendChild(el('line', {
-    class: 'edge', x1: g.nodes[a][0], y1: g.nodes[a][1], x2: g.nodes[b][0], y2: g.nodes[b][1] })));
-  const routeLayer = el('g', {});
-  svg.appendChild(routeLayer);
-  g.nodes.forEach(([x, y]) => svg.appendChild(el('circle', { class: 'node', cx: x, cy: y, r: 13 })));
-  g.route.slice(1).forEach((to, k) => {
-    const from = g.route[k];
-    const seg = () => routeLayer.appendChild(el('line', {
-      class: 'route', x1: g.nodes[from][0], y1: g.nodes[from][1], x2: g.nodes[to][0], y2: g.nodes[to][1] }));
-    if (animate) timers.push(setTimeout(seg, 500 * (k + 1))); else seg();
+  tours.forEach((t, k) => {
+    const pts = [0, ...t, 0].map(i => g.xy[i].join(',')).join(' ');
+    const p = el('polyline', { class: 'route', points: pts, stroke: COLORS[k % COLORS.length] });
+    svg.appendChild(p);
+    if (animate) {
+      const len = p.getTotalLength();
+      p.style.strokeDasharray = len;
+      p.style.strokeDashoffset = len;
+      p.getBoundingClientRect();
+      p.style.transition = `stroke-dashoffset 1.2s ease ${k * 0.15}s`;
+      p.style.strokeDashoffset = 0;
+    }
   });
+  g.xy.slice(1).forEach(([x, y]) => svg.appendChild(el('circle', { class: 'client', cx: x, cy: y, r: 13 })));
+  const [dx, dy] = g.xy[0];
+  svg.appendChild(el('rect', { class: 'depot', x: dx - 22, y: dy - 22, width: 44, height: 44, rx: 4 }));
+
+  document.querySelectorAll('.methods button').forEach(b => b.classList.toggle('on', +b.dataset.m === method));
+  document.getElementById('r-info').innerHTML =
+    `Distance totale : <strong>${fmt(g.cost[method])}</strong> · ${tours.length} camions`;
+  const gain = Math.round(100 * (g.cost[0] - g.cost[method]) / g.cost[0]);
+  document.getElementById('r-gain').textContent = method ? `−${gain} % vs plus proche voisin` : '';
 }
-draw(0, false);
-svg.addEventListener('click', () => { current = (current + 1) % instances.length; draw(current, true); });
+document.querySelectorAll('.methods button').forEach(b =>
+  b.addEventListener('click', () => { method = +b.dataset.m; draw(true); }));
+document.getElementById('next-inst').addEventListener('click', () => {
+  inst = (inst + 1) % CVRP.length; draw(true);
+});
+draw(false);
 </script>
 </body>
 </html>
