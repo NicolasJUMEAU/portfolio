@@ -96,6 +96,15 @@
   /* Jeu */
   .game { display: flex; align-items: center; justify-content: center; text-align: center; color: var(--muted); padding: 20px; }
   .game canvas { width: 100%; height: 100%; display: block; background: #1c1c28; }
+  .game-cover { display: block; }
+  .game-cover img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+  .game-cover span {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    background: rgba(0,0,0,.65); color: #fff; padding: 10px 26px; border-radius: 999px;
+    font-size: 1.2rem; border: 1.5px solid rgba(255,255,255,.6); transition: background .2s;
+  }
+  .game-cover:hover img { transform: scale(1.04); }
+  .game-cover:hover span { background: rgba(0,0,0,.85); }
 
   /* Graphe */
   #optim { gap: 4vw; }
@@ -204,15 +213,17 @@
   <section class="project" data-side="#e0d4ec" data-bg="#fdecec" id="loner">
     <div class="text">
       <h2>Path of the Loner</h2>
-      <div class="tags"><span>C++</span><span>Jeu</span></div>
-      <p>Jeu développé en C++, présenté ici en version simplifiée jouable dans le navigateur.</p>
-      <p><a href="#" target="_blank" rel="noopener">Code complet sur GitHub</a></p>
+      <a class="btn small" href="loner/" target="_blank" rel="noopener">Jouer à la démo</a>
+      <div class="tags"><span>C++</span><span>SFML</span><span>POO</span><span>Jeu</span></div>
+      <p>RPG au tour par tour dans l'univers viking, développé en équipe en C++ avec la bibliothèque SFML. On choisit un héros parmi quatre, puis on explore un donjon dont la carte se dévoile au fil des salles, en affrontant des monstres de plus en plus forts et en récupérant armes et armures pour trouver la salle du trésor.</p>
+      <p>La démo est une version JavaScript simplifiée du mode PvE : elle reprend les mêmes données (héros, bestiaire, objets) et les mêmes règles de combat que le jeu C++.</p>
+      <p><a href="https://github.com/NicolasJUMEAU/cpp-path-of-the-loner" target="_blank" rel="noopener">Code complet sur GitHub</a></p>
     </div>
     <div class="visual">
-      <div class="box game">
-        <!-- Remplace ce bloc par ton canvas / ta version JS du jeu -->
-        <p>Version jouable à venir<br><small>(canvas JavaScript à intégrer ici)</small></p>
-      </div>
+      <a class="box game-cover" href="loner/" target="_blank" rel="noopener" aria-label="Jouer à Path of the Loner">
+        <img src="loner/img/accueil_start.webp" alt="Path of the Loner : trois héros vikings devant l'entrée du donjon" loading="lazy">
+        <span>▶ Jouer</span>
+      </a>
     </div>
   </section>
 

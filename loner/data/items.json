@@ -1,0 +1,14 @@
+{
+    "weapons": {
+        "COMMON":    { "min": 5,  "max": 10 },
+        "RARE":      { "min": 15, "max": 25 },
+        "EPIC":      { "min": 30, "max": 50 },
+        "LEGENDARY": { "min": 60, "max": 100 }
+    },
+    "armors": {
+        "COMMON":    { "min": 2,  "max": 5 },
+        "RARE":      { "min": 8,  "max": 15 },
+        "EPIC":      { "min": 18, "max": 30 },
+        "LEGENDARY": { "min": 35, "max": 60 }
+    }
+}
