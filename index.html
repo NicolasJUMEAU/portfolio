@@ -5,286 +5,475 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nicolas Jumeau – Étudiant ingénieur informatique</title>
 <meta name="description" content="Portfolio de Nicolas Jumeau, étudiant ingénieur en informatique : projets web, jeu, optimisation.">
+<link rel="preload" href="fonts/fraunces-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+  /* Polices hébergées sur le site (aucune requête vers Google) – licence SIL OFL */
+  @font-face { font-family: "Fraunces"; src: url(fonts/fraunces-latin-400-normal.woff2) format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Fraunces"; src: url(fonts/fraunces-latin-400-italic.woff2) format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+  @font-face { font-family: "Inter"; src: url(fonts/inter-latin-300-normal.woff2) format("woff2"); font-weight: 300; font-display: swap; }
+  @font-face { font-family: "Inter"; src: url(fonts/inter-latin-400-normal.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Inter"; src: url(fonts/inter-latin-600-normal.woff2) format("woff2"); font-weight: 600; font-display: swap; }
+  @font-face { font-family: "JetBrains Mono"; src: url(fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+
   :root {
     --ink: #111;
-    --muted: #666;
-    --link: #3b6fd4;
-    --side: 84px;
+    --muted: #5f5f66;
+    --line: #e6e6e3;
+    --paper: #fff;
+    --soft: #f6f6f4;
+    /* Les couleurs pastel d'origine du portfolio */
+    --blue: #d4defc;
+    --pink: #fdecec;
+    --lilac: #e0d4ec;
+    --mint: #d3f7de;
+    --peach: #fff1ee;
+    --serif: "Fraunces", Georgia, "Times New Roman", serif;
+    --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    --wrap: 1200px;
+    --gutter: clamp(16px, 5vw, 48px);
+    --head: 68px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--head) + 56px); }
   body {
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    color: var(--ink);
-    line-height: 1.5;
+    font-family: var(--sans); font-weight: 300; color: var(--ink); background: var(--paper);
+    line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
   }
-  a { color: var(--link); }
+  img { max-width: 100%; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
 
-  /* ---------- Barre latérale ---------- */
-  .side {
-    position: fixed; top: 0; left: 0; bottom: 0; width: var(--side);
-    background: #d4defc; transition: background .4s;
-    display: flex; align-items: center; z-index: 10;
-  }
-  .side nav { border-left: 2px solid rgba(0,0,0,.15); margin-left: 16px; }
-  .side a {
-    display: block; padding: 6px 12px; margin: 6px 0;
-    font-size: .78rem; color: var(--ink); text-decoration: none;
-    border-left: 2px solid transparent; margin-left: -2px;
-  }
-  .side a.active { font-weight: 700; border-left-color: var(--ink); }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; }
+  h1 { font-size: clamp(3rem, 9vw, 6.5rem); letter-spacing: -0.02em; }
+  h2 { font-size: clamp(2rem, 4.5vw, 3.2rem); }
+  em { font-style: italic; }
 
-  main { margin-left: var(--side); }
-  section {
-    min-height: 100vh; padding: 64px 7vw;
-    display: flex; align-items: center; justify-content: center;
+  .label {
+    font-family: var(--mono); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
   }
-  h1 { font-size: clamp(2.4rem, 6vw, 3.6rem); font-weight: 400; line-height: 1.1; }
-  h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 400; margin-bottom: 8px; }
 
-  /* ---------- Accueil ---------- */
-  #accueil { background: #fff; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
-  .hero-right { text-align: right; margin-left: auto; }
-  .hero-right p { font-size: 1.25rem; margin-top: 6px; }
-  .hero-right .search { font-size: .95rem; color: var(--muted); margin-top: 12px; }
+  /* ---------- Boutons « pilule » ---------- */
   .btn {
-    display: inline-block; padding: 12px 26px; border: 2px solid var(--ink);
-    border-radius: 999px; color: var(--ink); text-decoration: none;
-    font-size: 1.3rem; transition: background .2s, color .2s;
+    display: inline-flex; align-items: center; gap: 10px; padding: 12px 26px;
+    border: 1px solid var(--ink); border-radius: 999px; background: transparent; color: var(--ink);
+    font-family: var(--mono); font-size: .8rem; letter-spacing: .06em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer; white-space: nowrap;
+    transition: background .25s, color .25s, transform .25s;
   }
   .btn:hover { background: var(--ink); color: #fff; }
-  .btn.small { font-size: .85rem; padding: 6px 16px; border-width: 1.5px; border-color: var(--link); color: var(--link); }
-  .btn.small:hover { background: var(--link); color: #fff; }
+  .btn.dark { background: var(--ink); color: #fff; }
+  .btn.dark:hover { background: #333; }
+  .btn .arrow { transition: transform .25s; }
+  .btn:hover .arrow { transform: translateX(4px); }
+  .btn.sm { padding: 8px 18px; font-size: .72rem; }
+
+  /* ---------- En-tête collant ---------- */
+  .head {
+    position: sticky; top: 0; z-index: 20; height: var(--head);
+    background: rgba(255,255,255,.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent; transition: border-color .3s;
+  }
+  .head.scrolled { border-bottom-color: var(--line); }
+  .head .wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { font-family: var(--serif); font-size: 1.35rem; text-decoration: none; }
+  .head nav { display: flex; gap: 28px; }
+  .head nav a { font-family: var(--mono); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: var(--muted); transition: color .2s; }
+  .head nav a:hover, .head nav a.active { color: var(--ink); }
+
+  /* ---------- Accueil ---------- */
+  .hero { text-align: center; padding-top: clamp(72px, 14vh, 150px); padding-bottom: 72px; }
+  .hero .label { display: block; margin-bottom: 26px; }
+  .hero .lead { font-size: clamp(1.1rem, 2.2vw, 1.4rem); max-width: 620px; margin: 26px auto 0; color: #333; }
+  .status {
+    display: inline-flex; align-items: center; gap: 10px; margin-top: 28px;
+    background: var(--mint); border-radius: 999px; padding: 8px 18px; font-size: .9rem; font-weight: 400;
+  }
+  .status::before { content: ""; flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: #1f9d55; animation: pulse 2s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(31,157,85,.5); } 70% { box-shadow: 0 0 0 9px rgba(31,157,85,0); } 100% { box-shadow: 0 0 0 0 rgba(31,157,85,0); } }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 36px; }
+
+  /* Bande défilante des technologies */
+  .marquee { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 22px 0; overflow: hidden; }
+  .marquee .label { text-align: center; display: block; margin-bottom: 14px; }
+  .track { display: flex; width: max-content; animation: slide 40s linear infinite; }
+  .marquee:hover .track { animation-play-state: paused; }
+  .track span { font-family: var(--serif); font-size: clamp(1.3rem, 2.4vw, 1.8rem); padding: 0 28px; white-space: nowrap; color: #333; }
+  .track span::after { content: "✦"; font-size: .7em; margin-left: 56px; color: #bbb; vertical-align: middle; }
+  @keyframes slide { to { transform: translateX(-50%); } }
 
   /* ---------- Projets ---------- */
-  .project { gap: 5vw; align-items: center; }
-  .project .text { flex: 1 1 280px; max-width: 420px; }
-  .project .visual { flex: 2 1 380px; }
-  .project .text p { margin: 14px 0; font-size: .95rem; }
-  .project.reverse { flex-direction: row-reverse; }
-  .project.reverse .text { text-align: right; }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
-  .project.reverse .tags { justify-content: flex-end; }
-  .tags span { font-size: .72rem; background: rgba(0,0,0,.07); padding: 3px 10px; border-radius: 999px; }
-  #guitab, #loner { background: #fdecec; }
-  #swiply, #optim { background: #fff6f5; }
+  .projects-intro { padding-top: 110px; padding-bottom: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; }
+  .projects-intro p { color: var(--muted); max-width: 440px; justify-self: end; }
+
+  /* Repères de projets (01, 02…) qui suivent la lecture */
+  .steps {
+    position: sticky; top: var(--head); z-index: 15; background: rgba(255,255,255,.9);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
+  }
+  .steps .wrap { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-top: 10px; padding-bottom: 10px; }
+  .steps .wrap::-webkit-scrollbar { display: none; }
+  .steps a {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+    text-decoration: none; color: #9a9aa0; padding: 6px 14px; border-radius: 999px; white-space: nowrap; transition: color .2s, background .2s;
+  }
+  .steps a b { font-weight: 400; margin-right: 6px; }
+  .steps a:hover { color: var(--ink); }
+  .steps a.active { color: var(--ink); background: var(--soft); }
+
+  .project { display: grid; grid-template-columns: minmax(0,5fr) minmax(0,7fr); gap: clamp(28px, 5vw, 72px); align-items: center; padding: 90px 0; border-bottom: 1px solid var(--line); }
+  .project:last-of-type { border-bottom: none; }
+  .project.reverse { grid-template-columns: minmax(0,7fr) minmax(0,5fr); }
+  .project.reverse .text { order: 2; }
+  .project .label { display: block; margin-bottom: 18px; }
+  .project h2 { margin-bottom: 20px; }
+  .project .text p { margin: 14px 0; color: #2a2a2e; }
+  .project .text p.note { font-size: .9rem; color: var(--muted); }
+  .project .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+  .tags span { font-family: var(--mono); font-size: .68rem; letter-spacing: .04em; border: 1px solid var(--line); color: #444; padding: 4px 11px; border-radius: 999px; }
+
+  /* Cadre pastel autour du visuel */
+  .frame { border-radius: 20px; padding: clamp(18px, 4vw, 44px); background: var(--soft); }
+  .frame.pink { background: var(--pink); }
+  .frame.blue { background: var(--blue); }
+  .frame.lilac { background: var(--lilac); }
+  .frame.mint { background: var(--mint); }
 
   .box {
-    background: #e6e6e6; border-radius: 6px; aspect-ratio: 16 / 9;
+    background: #fff; border-radius: 12px; aspect-ratio: 16 / 10;
     position: relative; overflow: hidden; width: 100%;
+    box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 18px 40px -18px rgba(0,0,0,.25);
   }
 
   /* Carrousel */
-  .carousel .slides { display: flex; height: 100%; transition: transform .4s ease; }
+  .carousel .slides { display: flex; height: 100%; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
   .carousel .slide {
     min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: .95rem; text-align: center; padding: 20px;
+    color: var(--muted); font-size: .9rem; text-align: center; padding: 20px;
   }
   .carousel .slide:has(img) { padding: 0; }
   .carousel .slide img { width: 100%; height: 100%; object-fit: cover; }
   .carousel button {
     position: absolute; top: 50%; transform: translateY(-50%);
-    background: rgba(255,255,255,.85); border: none; border-radius: 50%;
-    width: 38px; height: 38px; font-size: 1.2rem; cursor: pointer;
+    background: rgba(255,255,255,.92); border: 1px solid var(--line); border-radius: 50%;
+    width: 40px; height: 40px; font-size: 1rem; cursor: pointer; opacity: 0; transition: opacity .25s, background .2s;
   }
-  .carousel .prev { left: 10px; } .carousel .next { right: 10px; }
-  .dots { position: absolute; bottom: 10px; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
-  .dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,.25); }
-  .dots i.on { background: var(--ink); }
+  .carousel:hover button, .carousel button:focus-visible { opacity: 1; }
+  .carousel button:hover { background: #fff; }
+  .carousel .prev { left: 12px; } .carousel .next { right: 12px; }
+  .dots { position: absolute; bottom: 12px; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
+  .dots i { width: 7px; height: 7px; border-radius: 999px; background: rgba(0,0,0,.25); transition: width .3s, background .3s; }
+  .dots i.on { background: var(--ink); width: 20px; }
+  @media (hover: none) { .carousel button { opacity: 1; } }
 
   /* Jeu */
-  .game { display: flex; align-items: center; justify-content: center; text-align: center; color: var(--muted); padding: 20px; }
-  .game canvas { width: 100%; height: 100%; display: block; background: #1c1c28; }
   .game-cover { display: block; }
-  .game-cover img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+  .game-cover img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
   .game-cover span {
     position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-    background: rgba(0,0,0,.65); color: #fff; padding: 10px 26px; border-radius: 999px;
-    font-size: 1.2rem; border: 1.5px solid rgba(255,255,255,.6); transition: background .2s;
+    background: #fff; color: var(--ink); padding: 12px 28px; border-radius: 999px;
+    font-family: var(--mono); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase;
+    transition: background .25s, color .25s;
   }
-  .game-cover:hover img { transform: scale(1.04); }
-  .game-cover:hover span { background: rgba(0,0,0,.85); }
+  .game-cover:hover img { transform: scale(1.05); }
+  .game-cover:hover span { background: var(--ink); color: #fff; }
 
   /* Optimisation (CVRP) */
-  #optim { gap: 4vw; }
-  .graph-wrap { flex: 1 1 380px; max-width: 520px; }
-  .graph-wrap svg { width: 100%; height: auto; display: block; background: #fff; border-radius: 6px; cursor: pointer; }
+  .graph-wrap svg { width: 100%; height: auto; display: block; background: #fff; border-radius: 12px; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 18px 40px -18px rgba(0,0,0,.25); }
   .graph-wrap .route { fill: none; stroke-width: 7; stroke-linejoin: round; stroke-linecap: round; }
   .graph-wrap .client { fill: #fff; stroke: #555; stroke-width: 3; }
   .graph-wrap .depot { fill: var(--ink); }
-  .graph-wrap .hint { font-size: .8rem; color: var(--muted); text-align: center; margin-top: 6px; }
+  .graph-wrap .hint { text-align: center; margin-top: 14px; color: #333; }
+  .graph-wrap .hint::before { content: "↻ "; }
 
-  /* ---------- Contact ---------- */
-  #contact { background: #d3f7de; flex-direction: column; align-items: flex-start; justify-content: space-between; }
-  #contact .links { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 24px; }
-  #contact .links a { color: var(--ink); }
-  footer { font-size: .85rem; align-self: stretch; }
-  footer a { color: var(--ink); }
-  #legal { display: none; background: rgba(255,255,255,.7); border-radius: 8px; padding: 16px; margin-top: 12px; font-size: .8rem; max-width: 720px; }
+  /* ---------- Contact (bloc sombre) ---------- */
+  .contact { background: var(--ink); color: #fff; border-radius: 28px 28px 0 0; margin-top: 40px; padding: clamp(80px, 12vw, 140px) 0 40px; }
+  .contact .label { color: #a5a5ad; display: block; margin-bottom: 22px; }
+  .contact h2 { font-size: clamp(2.4rem, 6vw, 4.6rem); max-width: 900px; }
+  .contact h2 em { color: var(--blue); }
+  .contact .actions { justify-content: flex-start; margin-top: 40px; }
+  .contact .btn { border-color: rgba(255,255,255,.5); color: #fff; }
+  .contact .btn:hover { background: #fff; color: var(--ink); }
+  .contact .btn.light { background: var(--blue); border-color: var(--blue); color: var(--ink); }
+  .contact .btn.light:hover { background: #fff; border-color: #fff; }
+
+  footer { margin-top: clamp(80px, 12vw, 140px); padding-top: 32px; border-top: 1px solid #2c2c30; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; font-size: .9rem; color: #c9c9cf; }
+  footer .brand { color: #fff; display: inline-block; margin-bottom: 8px; }
+  footer h3 { font-family: var(--mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: #8a8a92; margin-bottom: 12px; }
+  footer ul { list-style: none; }
+  footer li { margin: 6px 0; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: #fff; text-decoration: underline; }
+  .copy { grid-column: 1 / -1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: .8rem; color: #8a8a92; }
+  #legal { display: none; grid-column: 1 / -1; background: #1c1c20; border-radius: 12px; padding: 18px 20px; font-size: .82rem; color: #c9c9cf; }
   #legal:target { display: block; }
+  #legal strong { color: #fff; }
+
+  /* ---------- Apparition au défilement ---------- */
+  .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .js .reveal.in { opacity: 1; transform: none; }
+  .js .reveal.d1 { transition-delay: .1s; } .js .reveal.d2 { transition-delay: .2s; } .js .reveal.d3 { transition-delay: .3s; } .js .reveal.d4 { transition-delay: .4s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+    .track, .status::before { animation: none; }
+    .game-cover img, .carousel .slides { transition: none; }
+  }
 
   /* ---------- Mobile ---------- */
-  @media (max-width: 800px) {
-    :root { --side: 0px; }
-    .side { top: 0; bottom: auto; left: 0; right: 0; width: 100%; height: 48px; justify-content: center; }
-    .side nav { border: none; margin: 0; display: flex; gap: 8px; }
-    .side a { border: none; margin: 0; padding: 4px 10px; }
-    .side a.active { text-decoration: underline; }
-    section { padding: 80px 6vw 48px; min-height: auto; }
-    .project, .project.reverse { flex-direction: column; align-items: stretch; }
-    .project.reverse .text { text-align: left; }
-    .project.reverse .tags { justify-content: flex-start; }
-    .hero-right { text-align: left; margin-left: 0; }
+  @media (max-width: 860px) {
+    .projects-intro { grid-template-columns: 1fr; padding-top: 80px; gap: 16px; }
+    .projects-intro p { justify-self: start; }
+    .project, .project.reverse { grid-template-columns: minmax(0,1fr); padding: 64px 0; }
+    .project.reverse .text { order: 0; }
+    footer { grid-template-columns: 1fr 1fr; }
+    footer > div:first-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 560px) {
+    :root { --head: 60px; }
+    .head nav { gap: 16px; }
+    .head nav a[href="#accueil"] { display: none; }
+    .brand { font-size: 1.15rem; }
+    .head .btn.sm { padding: 7px 14px; }
+    .hero { padding-top: 56px; }
+    .actions .btn { flex: 1 1 100%; justify-content: center; }
   }
 </style>
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
-<aside class="side" id="side">
-  <nav>
-    <a href="#accueil" class="active">Accueil</a>
-    <a href="#projets">Projets</a>
-    <a href="#contact">Contact</a>
-  </nav>
-</aside>
+<header class="head" id="head">
+  <div class="wrap">
+    <a class="brand" href="#accueil">Nicolas Jumeau</a>
+    <nav aria-label="Navigation principale">
+      <a href="#accueil">Accueil</a>
+      <a href="#projets">Projets</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn sm dark" href="cv.pdf" download>CV</a>
+  </div>
+</header>
 
 <main>
 
   <!-- ACCUEIL -->
-  <section id="accueil" data-side="#d4defc">
-    <a class="btn" href="cv.pdf" download>CV</a>
-    <div class="hero-right">
-      <h1>Nicolas<br>Jumeau</h1>
-      <p>Étudiant ingénieur informatique</p>
-      <p class="search">À la recherche d'un stage de 2 à 3 mois – disponible dès janvier</p>
+  <section id="accueil" class="hero wrap">
+    <span class="label reveal">Étudiant ingénieur informatique</span>
+    <h1 class="reveal d1">Nicolas <em>Jumeau</em></h1>
+    <p class="lead reveal d2">Applications web, jeu vidéo et algorithmes d'optimisation : une sélection de mes projets personnels et scolaires.</p>
+    <p class="status reveal d3">À la recherche d'un stage de 2 à 3 mois, disponible dès janvier</p>
+    <div class="actions reveal d4">
+      <a class="btn dark" href="#projets">Voir mes projets <span class="arrow">→</span></a>
+      <a class="btn" href="#contact">Me contacter</a>
     </div>
   </section>
 
-  <!-- GUITAB STUDIO -->
-  <section id="projets" class="project" data-side="#e0d4ec" data-bg="#fdecec">
-    <div class="text" id="guitab">
-      <h2>GuiTab Studio</h2>
-      <a class="btn small" href="https://guitab-studio.vercel.app" target="_blank" rel="noopener">Lien du site</a>
-      <div class="tags"><span>Web</span><span>Vercel</span></div>
-      <p>Application personnelle de partitions et tablatures de guitare, pensée pour simplifier et automatiser leur création.</p>
-      <p>À compléter : problème de départ, fonctionnalités principales, ce que tu as appris.</p>
+  <div class="marquee" aria-label="Technologies utilisées dans mes projets">
+    <span class="label">Technologies utilisées dans mes projets</span>
+    <div class="track" aria-hidden="true">
+      <span>Python</span><span>C++</span><span>SFML</span><span>JavaScript</span><span>PHP</span><span>Laravel</span><span>MySQL</span><span>Recuit simulé</span><span>Vercel</span><span>Git</span>
+      <span>Python</span><span>C++</span><span>SFML</span><span>JavaScript</span><span>PHP</span><span>Laravel</span><span>MySQL</span><span>Recuit simulé</span><span>Vercel</span><span>Git</span>
     </div>
-    <div class="visual">
-      <div class="box carousel" data-carousel>
-        <div class="slides">
-          <div class="slide">Capture 1 – page d'accueil<br>(remplace par &lt;img src="images/guitab-1.png"&gt;)</div>
-          <div class="slide">Capture 2 – éditeur de tablatures</div>
-          <div class="slide">Capture 3 – export</div>
-        </div>
-        <button class="prev" aria-label="Précédent">←</button>
-        <button class="next" aria-label="Suivant">→</button>
-        <div class="dots"></div>
+  </div>
+
+  <!-- PROJETS -->
+  <section id="projets">
+    <div class="wrap projects-intro">
+      <h2 class="reveal">Quatre projets,<br><em>quatre terrains de jeu</em></h2>
+      <p class="reveal d1">Du web au jeu vidéo en passant par la recherche opérationnelle. Chaque projet se teste directement dans le navigateur.</p>
+    </div>
+
+    <nav class="steps" aria-label="Projets">
+      <div class="wrap">
+        <a href="#guitab"><b>01</b>GuiTab Studio</a>
+        <a href="#swiply"><b>02</b>Swiply</a>
+        <a href="#loner"><b>03</b>Path of the Loner</a>
+        <a href="#optim"><b>04</b>Optimisation</a>
       </div>
-    </div>
-  </section>
+    </nav>
 
-  <!-- SWIPLY -->
-  <section class="project reverse" data-side="#e2e0f5" data-bg="#fff6f5" id="swiply">
-    <div class="text">
-      <h2>Swiply</h2>
-      <a class="btn small" href="swiply/" target="_blank" rel="noopener">Essayer la démo</a>
-      <div class="tags"><span>Laravel</span><span>PHP</span><span>MySQL</span><span>JavaScript</span></div>
-      <p>Application web réalisée en équipe qui aide les étudiants à trouver un stage ou une alternance en « swipant » des offres, à la manière d'une application de rencontres. Les entreprises publient leurs offres, les étudiants les likent, les ajoutent à leur wishlist puis postulent avec leur CV, et les pilotes de promotion suivent leurs candidatures.</p>
-      <p>La démo en ligne est une version statique : les données de la base MySQL sont exportées en JSON et vos actions (swipes, wishlist, candidatures) restent dans votre navigateur.</p>
-    </div>
-    <div class="visual">
-      <div class="box carousel" data-carousel>
-        <div class="slides">
-          <div class="slide"><img src="images/swiply-1.jpg" alt="Swiply : carte d'offre à swiper" loading="lazy"></div>
-          <div class="slide"><img src="images/swiply-2.jpg" alt="Swiply : détail d'une offre" loading="lazy"></div>
-          <div class="slide"><img src="images/swiply-3.jpg" alt="Swiply : wishlist de l'étudiant" loading="lazy"></div>
-          <div class="slide"><img src="images/swiply-4.jpg" alt="Swiply : profil d'une entreprise" loading="lazy"></div>
+    <div class="wrap">
+
+      <!-- GUITAB STUDIO -->
+      <article class="project" id="guitab">
+        <div class="text reveal">
+          <span class="label">01 — Projet personnel · Web</span>
+          <h2>GuiTab Studio</h2>
+          <div class="tags"><span>Web</span><span>Vercel</span></div>
+          <p>Application personnelle de partitions et tablatures de guitare, pensée pour simplifier et automatiser leur création.</p>
+          <p class="note">À compléter : problème de départ, fonctionnalités principales, ce que tu as appris.</p>
+          <div class="links">
+            <a class="btn dark" href="https://guitab-studio.vercel.app" target="_blank" rel="noopener">Voir le site <span class="arrow">↗</span></a>
+          </div>
         </div>
-        <button class="prev" aria-label="Précédent">←</button>
-        <button class="next" aria-label="Suivant">→</button>
-        <div class="dots"></div>
-      </div>
-    </div>
-  </section>
+        <div class="frame pink reveal d1">
+          <div class="box carousel" data-carousel>
+            <div class="slides">
+              <div class="slide">Capture 1 – page d'accueil<br>(remplace par &lt;img src="images/guitab-1.png"&gt;)</div>
+              <div class="slide">Capture 2 – éditeur de tablatures</div>
+              <div class="slide">Capture 3 – export</div>
+            </div>
+            <button class="prev" aria-label="Précédent">←</button>
+            <button class="next" aria-label="Suivant">→</button>
+            <div class="dots"></div>
+          </div>
+        </div>
+      </article>
 
-  <!-- PATH OF THE LONER -->
-  <section class="project" data-side="#e0d4ec" data-bg="#fdecec" id="loner">
-    <div class="text">
-      <h2>Path of the Loner</h2>
-      <a class="btn small" href="loner/" target="_blank" rel="noopener">Jouer à la démo</a>
-      <div class="tags"><span>C++</span><span>SFML</span><span>POO</span><span>Jeu</span></div>
-      <p>RPG au tour par tour dans l'univers viking, développé en équipe en C++ avec la bibliothèque SFML. On choisit un héros parmi quatre, puis on explore un donjon dont la carte se dévoile au fil des salles, en affrontant des monstres de plus en plus forts et en récupérant armes et armures pour trouver la salle du trésor.</p>
-      <p>La démo est une version JavaScript simplifiée du mode PvE : elle reprend les mêmes données (héros, bestiaire, objets) et les mêmes règles de combat que le jeu C++.</p>
-      <p><a href="https://github.com/NicolasJUMEAU/cpp-path-of-the-loner" target="_blank" rel="noopener">Code complet sur GitHub</a></p>
-    </div>
-    <div class="visual">
-      <a class="box game-cover" href="loner/" target="_blank" rel="noopener" aria-label="Jouer à Path of the Loner">
-        <img src="loner/img/accueil_start.webp" alt="Path of the Loner : trois héros vikings devant l'entrée du donjon" loading="lazy">
-        <span>▶ Jouer</span>
-      </a>
-    </div>
-  </section>
+      <!-- SWIPLY -->
+      <article class="project reverse" id="swiply">
+        <div class="text reveal">
+          <span class="label">02 — Projet d'équipe · Web</span>
+          <h2>Swiply</h2>
+          <div class="tags"><span>Laravel</span><span>PHP</span><span>MySQL</span><span>JavaScript</span></div>
+          <p>Application web réalisée en équipe qui aide les étudiants à trouver un stage ou une alternance en « swipant » des offres, à la manière d'une application de rencontres. Les entreprises publient leurs offres, les étudiants les likent, les ajoutent à leur wishlist puis postulent avec leur CV, et les pilotes de promotion suivent leurs candidatures.</p>
+          <p class="note">La démo en ligne est une version statique : les données de la base MySQL sont exportées en JSON et vos actions (swipes, wishlist, candidatures) restent dans votre navigateur.</p>
+          <div class="links">
+            <a class="btn dark" href="swiply/" target="_blank" rel="noopener">Essayer la démo <span class="arrow">↗</span></a>
+          </div>
+        </div>
+        <div class="frame blue reveal d1">
+          <div class="box carousel" data-carousel>
+            <div class="slides">
+              <div class="slide"><img src="images/swiply-1.jpg" alt="Swiply : carte d'offre à swiper" loading="lazy"></div>
+              <div class="slide"><img src="images/swiply-2.jpg" alt="Swiply : détail d'une offre" loading="lazy"></div>
+              <div class="slide"><img src="images/swiply-3.jpg" alt="Swiply : wishlist de l'étudiant" loading="lazy"></div>
+              <div class="slide"><img src="images/swiply-4.jpg" alt="Swiply : profil d'une entreprise" loading="lazy"></div>
+            </div>
+            <button class="prev" aria-label="Précédent">←</button>
+            <button class="next" aria-label="Suivant">→</button>
+            <div class="dots"></div>
+          </div>
+        </div>
+      </article>
 
-  <!-- OPTIMISATION -->
-  <section class="project reverse" data-side="#e2e0f5" data-bg="#fff6f5" id="optim">
-    <div class="text">
-      <h2>Optimisation<br>de tournées</h2>
-      <div class="tags"><span>Python</span><span>Recuit simulé</span><span>CVRP</span></div>
-      <p>Projet de 3<sup>e</sup> année en équipe : trouver les tournées les plus courtes pour des camions qui partent d'un dépôt, livrent tous les clients et reviennent au dépôt.</p>
-      <p>Les solutions du graphe sont calculées à l'avance avec notre algorithme.</p>
-    </div>
-    <div class="graph-wrap">
-      <svg id="graph" viewBox="-40 -40 1080 1080" role="img" aria-label="Tournées de livraison : le carré noir est le dépôt, une couleur par camion"></svg>
-      <p class="hint" id="graph-hint">Cliquer sur le graphe pour résoudre</p>
+      <!-- PATH OF THE LONER -->
+      <article class="project" id="loner">
+        <div class="text reveal">
+          <span class="label">03 — Projet d'équipe · Jeu</span>
+          <h2>Path of the Loner</h2>
+          <div class="tags"><span>C++</span><span>SFML</span><span>POO</span><span>Jeu</span></div>
+          <p>RPG au tour par tour dans l'univers viking, développé en équipe en C++ avec la bibliothèque SFML. On choisit un héros parmi quatre, puis on explore un donjon dont la carte se dévoile au fil des salles, en affrontant des monstres de plus en plus forts et en récupérant armes et armures pour trouver la salle du trésor.</p>
+          <p class="note">La démo est une version JavaScript simplifiée du mode PvE : elle reprend les mêmes données (héros, bestiaire, objets) et les mêmes règles de combat que le jeu C++.</p>
+          <div class="links">
+            <a class="btn dark" href="loner/" target="_blank" rel="noopener">Jouer à la démo <span class="arrow">↗</span></a>
+            <a class="btn" href="https://github.com/NicolasJUMEAU/cpp-path-of-the-loner" target="_blank" rel="noopener">Code C++</a>
+          </div>
+        </div>
+        <div class="frame lilac reveal d1">
+          <a class="box game-cover" href="loner/" target="_blank" rel="noopener" aria-label="Jouer à Path of the Loner">
+            <img src="loner/img/accueil_start.webp" alt="Path of the Loner : trois héros vikings devant l'entrée du donjon" loading="lazy">
+            <span>▶ Jouer</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- OPTIMISATION -->
+      <article class="project reverse" id="optim">
+        <div class="text reveal">
+          <span class="label">04 — Projet d'équipe · Algorithmie</span>
+          <h2>Optimisation de tournées</h2>
+          <div class="tags"><span>Python</span><span>Recuit simulé</span><span>CVRP</span></div>
+          <p>Projet de 3<sup>e</sup> année en équipe : trouver les tournées les plus courtes pour des camions qui partent d'un dépôt, livrent tous les clients et reviennent au dépôt.</p>
+          <p class="note">Les solutions du graphe sont calculées à l'avance avec notre algorithme. Le carré noir est le dépôt, une couleur par camion.</p>
+        </div>
+        <div class="frame mint graph-wrap reveal d1">
+          <svg id="graph" viewBox="-40 -40 1080 1080" role="img" aria-label="Tournées de livraison : le carré noir est le dépôt, une couleur par camion"></svg>
+          <p class="hint label" id="graph-hint">Cliquer sur le graphe pour résoudre</p>
+        </div>
+      </article>
+
     </div>
   </section>
 
   <!-- CONTACT -->
-  <section id="contact" data-side="#b3e5d8">
-    <div>
-      <h2>Contact</h2>
-      <div class="links">
-        <a href="mailto:ton.email@exemple.fr">ton.email@exemple.fr</a>
-        <a href="https://www.linkedin.com/in/TON-PROFIL" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://github.com/TON-PSEUDO" target="_blank" rel="noopener">GitHub</a>
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <span class="label reveal">Contact</span>
+      <h2 class="reveal d1">Un stage de 2 à 3 mois à partir de janvier ? <em style="white-space:nowrap">Parlons-en.</em></h2>
+      <div class="actions reveal d2">
+        <a class="btn light" href="mailto:ton.email@exemple.fr">M'écrire <span class="arrow">→</span></a>
+        <a class="btn" href="https://www.linkedin.com/in/TON-PROFIL" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/TON-PSEUDO" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="cv.pdf" download>Télécharger le CV</a>
       </div>
+
+      <footer>
+        <div>
+          <a class="brand" href="#accueil">Nicolas Jumeau</a>
+          <p>Étudiant ingénieur informatique.</p>
+        </div>
+        <div>
+          <h3>Projets</h3>
+          <ul>
+            <li><a href="#guitab">GuiTab Studio</a></li>
+            <li><a href="#swiply">Swiply</a></li>
+            <li><a href="#loner">Path of the Loner</a></li>
+            <li><a href="#optim">Optimisation</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Liens</h3>
+          <ul>
+            <li><a href="mailto:ton.email@exemple.fr">E-mail</a></li>
+            <li><a href="https://www.linkedin.com/in/TON-PROFIL" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://github.com/TON-PSEUDO" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="#legal">Mentions légales</a></li>
+          </ul>
+        </div>
+        <div id="legal">
+          <strong>Mentions légales</strong><br>
+          Éditeur : Nicolas Jumeau – contact : ton.email@exemple.fr<br>
+          Hébergeur : Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis.<br>
+          Ce site ne dépose aucun cookie et ne collecte aucune donnée personnelle. Les polices sont hébergées sur le site lui-même.
+        </div>
+        <div class="copy">
+          <span>© 2026 Nicolas Jumeau</span>
+          <span>Site réalisé avec Claude</span>
+        </div>
+      </footer>
     </div>
-    <footer>
-      <p>Site réalisé avec Claude · <a href="#legal">Mentions légales</a></p>
-      <div id="legal">
-        <strong>Mentions légales</strong><br>
-        Éditeur : Nicolas Jumeau – contact : ton.email@exemple.fr<br>
-        Hébergeur : Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis.<br>
-        Ce site ne dépose aucun cookie et ne collecte aucune donnée personnelle.
-      </div>
-    </footer>
   </section>
 
 </main>
 
 <script>
-/* ---------- Nav active + couleur de la barre latérale ---------- */
-const side = document.getElementById('side');
-const links = [...document.querySelectorAll('.side a')];
-const sections = [...document.querySelectorAll('main section')];
-const linkFor = id => (['accueil','contact'].includes(id) ? id : 'projets');
+/* ---------- En-tête : bordure au défilement ---------- */
+const head = document.getElementById('head');
+const onScroll = () => head.classList.toggle('scrolled', scrollY > 10);
+addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    const s = e.target;
-    side.style.background = s.dataset.side || '#d4defc';
-    const target = linkFor(s.id || 'projets');
-    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + target));
+/* ---------- Apparition des blocs au défilement ---------- */
+const reveals = document.querySelectorAll('.reveal');
+if ('IntersectionObserver' in window) {
+  const ro = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
+  }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(r => ro.observe(r));
+} else reveals.forEach(r => r.classList.add('in'));
+
+/* ---------- Lien actif (menu du haut + repères 01–04) ---------- */
+const navLinks = [...document.querySelectorAll('.head nav a')];
+const stepLinks = [...document.querySelectorAll('.steps a')];
+const watch = [...document.querySelectorAll('#accueil, #contact, .project')];
+const spy = new IntersectionObserver(entries => entries.forEach(e => {
+  if (!e.isIntersecting) return;
+  const id = e.target.id;
+  const top = e.target.classList.contains('project') ? 'projets' : id;
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + top));
+  stepLinks.forEach(a => {
+    const on = a.getAttribute('href') === '#' + id;
+    a.classList.toggle('active', on);
+    if (on) a.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   });
-}, { threshold: 0.5 });
-sections.forEach(s => {
-  if (s.dataset.bg) s.style.background = s.dataset.bg;
-  io.observe(s);
-});
+}), { rootMargin: '-45% 0px -45% 0px' });
+watch.forEach(s => spy.observe(s));
 
-/* ---------- Carrousels ---------- */
+/* ---------- Carrousels (boutons, points, glisser au doigt) ---------- */
 document.querySelectorAll('[data-carousel]').forEach(c => {
   const slides = c.querySelector('.slides');
   const n = slides.children.length;
@@ -295,8 +484,17 @@ document.querySelectorAll('[data-carousel]').forEach(c => {
     slides.style.transform = `translateX(-${i * 100}%)`;
     [...dots.children].forEach((d, k) => d.classList.toggle('on', k === i));
   };
-  c.querySelector('.prev').onclick = () => { i = (i - 1 + n) % n; show(); };
-  c.querySelector('.next').onclick = () => { i = (i + 1) % n; show(); };
+  const go = d => { i = (i + d + n) % n; show(); };
+  c.querySelector('.prev').onclick = () => go(-1);
+  c.querySelector('.next').onclick = () => go(1);
+  let x0 = null;
+  c.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  c.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+    x0 = null;
+  });
   show();
 });
 
@@ -340,6 +538,7 @@ svg.addEventListener('click', () => {
   draw();
 });
 draw();
+
 </script>
 </body>
 </html>
