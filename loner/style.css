@@ -19,6 +19,7 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   line-height: 1.45;
 }
+@font-face { font-family: "Quintessential"; src: url(../fonts/quintessential-latin-400-normal.woff2) format("woff2"); font-display: swap; }
 h1, h2, h3, .btn, .room-label, .enemy-name { font-family: "Quintessential", Georgia, serif; font-weight: 400; }
 a { color: var(--gold); }
 [hidden] { display: none !important; }
