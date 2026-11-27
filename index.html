@@ -468,7 +468,13 @@ const spy = new IntersectionObserver(entries => entries.forEach(e => {
   stepLinks.forEach(a => {
     const on = a.getAttribute('href') === '#' + id;
     a.classList.toggle('active', on);
-    if (on) a.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    /* On fait défiler seulement la barre des repères, à l'horizontale.
+       (scrollIntoView faisait aussi bouger la page : petit retour en arrière) */
+    if (on) {
+      const bar = a.parentElement;
+      const left = a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2;
+      bar.scrollTo({ left, behavior: 'smooth' });
+    }
   });
 }), { rootMargin: '-45% 0px -45% 0px' });
 watch.forEach(s => spy.observe(s));
