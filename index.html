@@ -110,7 +110,7 @@
   .steps a b { font-weight: 400; margin-right: 6px; }
   .steps a:hover { color: var(--ink); }
   .steps a.active { color: #fff; background: var(--ink); }
-  .steps .short { display: none; }
+  .steps .short, .head .brand .short { display: none; }
 
   /* ---------- Accueil ---------- */
   .hero { text-align: center; padding-top: calc(var(--head) + clamp(72px, 14vh, 150px)); padding-bottom: 72px; }
@@ -203,6 +203,25 @@
   .graph-wrap .hint { text-align: center; margin-top: 14px; color: #333; }
   .graph-wrap .hint::before { content: "↻ "; }
 
+  /* ---------- Parcours ---------- */
+  .parcours { padding-top: 110px; padding-bottom: 60px; border-top: 1px solid var(--line); }
+  .parcours-head { margin-bottom: 48px; }
+  .parcours-head .label { display: block; margin-bottom: 18px; }
+  .cols { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(32px, 6vw, 96px); }
+  .parcours h3 { font-family: var(--mono); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; }
+  .parcours h3 ~ h3 { margin-top: 44px; }
+  .timeline { list-style: none; border-left: 1px solid var(--line); margin-bottom: 28px; }
+  .timeline li { position: relative; padding: 0 0 26px 24px; display: grid; gap: 4px; }
+  .timeline li::before { content: ""; position: absolute; left: -5px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: #fff; border: 1.5px solid var(--ink); }
+  .timeline li:first-child::before { background: var(--ink); }
+  .timeline .when { font-family: var(--mono); font-size: .72rem; letter-spacing: .04em; color: var(--muted); }
+  .timeline strong { font-family: var(--serif); font-weight: 400; font-size: 1.3rem; display: block; line-height: 1.25; }
+  .timeline .where { display: block; font-size: .9rem; color: var(--muted); }
+  .timeline p { font-size: .95rem; margin-top: 6px; color: #2a2a2e; }
+  .skills { display: grid; grid-template-columns: max-content 1fr; gap: 10px 20px; font-size: .95rem; }
+  .skills dt { font-weight: 600; }
+  .skills dd { color: #2a2a2e; }
+
   /* ---------- Contact (bloc sombre) ---------- */
   .contact { background: var(--ink); color: #fff; border-radius: 28px 28px 0 0; margin-top: 40px; padding: clamp(80px, 12vw, 140px) 0 40px; }
   .contact .label { color: #a5a5ad; display: block; margin-bottom: 22px; }
@@ -245,6 +264,8 @@
     .project, .project.reverse { grid-template-columns: minmax(0,1fr); padding: 64px 0; }
     .project.reverse .text { order: 0; }
     footer { grid-template-columns: 1fr 1fr; }
+    .cols { grid-template-columns: minmax(0,1fr); }
+    .parcours { padding-top: 80px; }
     footer > div:first-child { grid-column: 1 / -1; }
   }
   @media (max-width: 560px) {
@@ -260,8 +281,8 @@
     .steps { padding: 5px; }
     .steps a { padding: 6px 9px; font-size: .66rem; }
     .steps a b { margin-right: 4px; }
-    .steps .full { display: none; }
-    .steps .short { display: inline; }
+    .steps .full, .head .brand .full { display: none; }
+    .steps .short, .head .brand .short { display: inline; }
     .actions .btn { flex: 1 1 100%; justify-content: center; }
   }
 </style>
@@ -271,10 +292,11 @@
 
 <div class="float">
   <header class="head glass">
-    <a class="brand" href="#accueil">Nicolas Jumeau</a>
+    <a class="brand" href="#accueil" aria-label="Nicolas Jumeau, accueil"><span class="full">Nicolas Jumeau</span><span class="short">NJ</span></a>
     <nav aria-label="Navigation principale">
       <a href="#accueil">Accueil</a>
       <a href="#projets">Projets</a>
+      <a href="#parcours">Parcours</a>
       <a href="#contact">Contact</a>
     </nav>
     <a class="btn sm dark" href="cv.pdf" download>CV</a>
@@ -291,21 +313,21 @@
 
   <!-- ACCUEIL -->
   <section id="accueil" class="hero wrap">
-    <span class="label reveal">Étudiant ingénieur informatique</span>
+    <span class="label reveal">Étudiant ingénieur informatique · CESI</span>
     <h1 class="reveal d1">Nicolas <em>Jumeau</em></h1>
     <p class="lead reveal d2">Applications web, jeu vidéo et algorithmes d'optimisation : une sélection de mes projets personnels et scolaires.</p>
-    <p class="status reveal d3">À la recherche d'un stage de 2 à 3 mois, disponible dès janvier</p>
+    <p class="status reveal d3">À la recherche d'un stage de 3 mois en IA / machine learning dès janvier 2027</p>
     <div class="actions reveal d4">
       <a class="btn dark" href="#projets">Voir mes projets <span class="arrow">→</span></a>
       <a class="btn" href="#contact">Me contacter</a>
     </div>
   </section>
 
-  <div class="marquee" data-nav="accueil" aria-label="Technologies utilisées dans mes projets">
-    <span class="label">Technologies utilisées dans mes projets</span>
+  <div class="marquee" data-nav="accueil" aria-label="Technologies que j'utilise">
+    <span class="label">Technologies que j'utilise</span>
     <div class="track" aria-hidden="true">
-      <span>Python</span><span>C++</span><span>SFML</span><span>JavaScript</span><span>PHP</span><span>Laravel</span><span>MySQL</span><span>Recuit simulé</span><span>Vercel</span><span>Git</span>
-      <span>Python</span><span>C++</span><span>SFML</span><span>JavaScript</span><span>PHP</span><span>Laravel</span><span>MySQL</span><span>Recuit simulé</span><span>Vercel</span><span>Git</span>
+      <span>Python</span><span>C++</span><span>Java</span><span>Spring</span><span>JavaScript</span><span>PHP</span><span>Laravel</span><span>MySQL</span><span>PostgreSQL</span><span>SFML</span><span>Linux</span><span>Git</span>
+      <span>Python</span><span>C++</span><span>Java</span><span>Spring</span><span>JavaScript</span><span>PHP</span><span>Laravel</span><span>MySQL</span><span>PostgreSQL</span><span>SFML</span><span>Linux</span><span>Git</span>
     </div>
   </div>
 
@@ -325,7 +347,7 @@
           <h2>GuiTab Studio</h2>
           <div class="tags"><span>Web</span><span>Vercel</span></div>
           <p>Application personnelle de partitions et tablatures de guitare, pensée pour simplifier et automatiser leur création.</p>
-          <p class="note">À compléter : problème de départ, fonctionnalités principales, ce que tu as appris.</p>
+          <p class="note">Projet en cours de développement, réalisé avec l'aide de l'IA.</p>
           <div class="links">
             <a class="btn dark" href="https://guitab-studio.vercel.app" target="_blank" rel="noopener">Voir le site <span class="arrow">↗</span></a>
           </div>
@@ -410,22 +432,58 @@
     </div>
   </section>
 
+  <!-- PARCOURS -->
+  <section id="parcours" class="wrap parcours">
+    <div class="parcours-head">
+      <span class="label reveal">Parcours</span>
+      <h2 class="reveal d1">Formation <em>et expériences</em></h2>
+    </div>
+    <div class="cols">
+      <div class="reveal">
+        <h3>Formation</h3>
+        <ol class="timeline">
+          <li><span class="when">2024 – 2029</span><div><strong>Diplôme d'ingénieur en informatique</strong><span class="where">CESI École d'Ingénieurs · Nanterre</span><p>3<sup>e</sup> année (1<sup>re</sup> année du cycle ingénieur). Développement web et logiciel, systèmes embarqués, réseaux.</p></div></li>
+          <li><span class="when">2021 – 2024</span><div><strong>Baccalauréat général</strong><span class="where">Lycée Ozenne · Toulouse</span></div></li>
+        </ol>
+        <h3>Compétences</h3>
+        <dl class="skills">
+          <dt>Programmation</dt><dd>Python, C++, Java, Spring, API</dd>
+          <dt>Web</dt><dd>HTML, CSS, JavaScript, PHP, Laravel, Figma</dd>
+          <dt>Bases de données</dt><dd>SQL, MySQL, PostgreSQL</dd>
+          <dt>Collaboration</dt><dd>GitHub, GitLab, agilité, IA</dd>
+          <dt>Réseau</dt><dd>Cisco Packet Tracer, Linux</dd>
+          <dt>Langues</dt><dd>Français (langue maternelle), anglais (B2)</dd>
+        </dl>
+      </div>
+      <div class="reveal d1">
+        <h3>Expériences</h3>
+        <ol class="timeline">
+          <li><span class="when">Avr. – août 2026</span><div><strong>Stagiaire développeur data</strong><span class="where">Dalkia · Paris La Défense</span><p>Refonte d'une application Spring (Java) de récupération de données de l'INSEE. Audit de l'existant et rédaction de la procédure d'évolution pour les développeurs.</p></div></li>
+          <li><span class="when">Oct. 2024 – avr. 2026</span><div><strong>Bénévole</strong><span class="where">Association Les Herbes Folles · Toulouse</span><p>Organisation d'événements culturels et festifs, cuisine et bar.</p></div></li>
+          <li><span class="when">Mai – juin 2025</span><div><strong>Employé polyvalent</strong><span class="where">Carrefour · Toulouse</span><p>Caisse, réassort et conseil aux clients.</p></div></li>
+          <li><span class="when">Avril 2022</span><div><strong>Stagiaire chercheur en IA</strong><span class="where">IRT Saint Exupéry · Toulouse</span><p>Découverte de projets d'IA appliquée à l'aéronautique et aux systèmes embarqués.</p></div></li>
+        </ol>
+        <a class="btn dark" href="cv.pdf" download>Télécharger le CV <span class="arrow">↓</span></a>
+      </div>
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <section id="contact" class="contact">
     <div class="wrap">
       <span class="label reveal">Contact</span>
-      <h2 class="reveal d1">Un stage de 2 à 3 mois à partir de janvier ? <em style="white-space:nowrap">Parlons-en.</em></h2>
+      <h2 class="reveal d1">Un stage de 3 mois en IA à partir de janvier 2027 ? <em style="white-space:nowrap">Parlons-en.</em></h2>
       <div class="actions reveal d2">
-        <a class="btn light" href="mailto:ton.email@exemple.fr">M'écrire <span class="arrow">→</span></a>
-        <a class="btn" href="https://www.linkedin.com/in/TON-PROFIL" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn" href="https://github.com/TON-PSEUDO" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn light" href="mailto:nicko.jumeau@gmail.com">M'écrire <span class="arrow">→</span></a>
+        <a class="btn" href="https://www.linkedin.com/in/nicolasjumeau" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/NicolasJUMEAU" target="_blank" rel="noopener">GitHub</a>
         <a class="btn" href="cv.pdf" download>Télécharger le CV</a>
       </div>
 
       <footer>
         <div>
           <a class="brand" href="#accueil">Nicolas Jumeau</a>
-          <p>Étudiant ingénieur informatique.</p>
+          <p>Étudiant ingénieur informatique au CESI.<br>Paris, Île-de-France.</p>
         </div>
         <div>
           <h3>Projets</h3>
@@ -434,20 +492,21 @@
             <li><a href="#swiply">Swiply</a></li>
             <li><a href="#loner">Path of the Loner</a></li>
             <li><a href="#optim">Optimisation</a></li>
+            <li><a href="#parcours">Parcours</a></li>
           </ul>
         </div>
         <div>
           <h3>Liens</h3>
           <ul>
-            <li><a href="mailto:ton.email@exemple.fr">E-mail</a></li>
-            <li><a href="https://www.linkedin.com/in/TON-PROFIL" target="_blank" rel="noopener">LinkedIn</a></li>
-            <li><a href="https://github.com/TON-PSEUDO" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="mailto:nicko.jumeau@gmail.com">E-mail</a></li>
+            <li><a href="https://www.linkedin.com/in/nicolasjumeau" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://github.com/NicolasJUMEAU" target="_blank" rel="noopener">GitHub</a></li>
             <li><a href="#legal">Mentions légales</a></li>
           </ul>
         </div>
         <div id="legal">
           <strong>Mentions légales</strong><br>
-          Éditeur : Nicolas Jumeau – contact : ton.email@exemple.fr<br>
+          Éditeur : Nicolas Jumeau – contact : nicko.jumeau@gmail.com<br>
           Hébergeur : Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis.<br>
           Ce site ne dépose aucun cookie et ne collecte aucune donnée personnelle. Les polices sont hébergées sur le site lui-même.
         </div>
@@ -486,7 +545,7 @@ const spy = new IntersectionObserver(entries => entries.forEach(e => {
   if (isProject) stepLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
   steps.classList.toggle('show', isProject);
 }), { rootMargin: '-45% 0px -45% 0px' });
-document.querySelectorAll('#accueil, .marquee, .projects-intro, .project, #contact').forEach(s => spy.observe(s));
+document.querySelectorAll('#accueil, .marquee, .projects-intro, .project, #parcours, #contact').forEach(s => spy.observe(s));
 
 /* ---------- Carrousels (boutons, points, glisser au doigt) ---------- */
 document.querySelectorAll('[data-carousel]').forEach(c => {
