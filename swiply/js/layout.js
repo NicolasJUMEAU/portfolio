@@ -50,7 +50,7 @@
     footer.innerHTML = `
         <div class="h-2 bg-[#252D3D] w-full"></div>
         <div class="container mx-auto text-center text-white text-sm py-4 px-4">
-            <span>Démo statique de Swiply : connecté en tant que « Test Etudiant », données fictives, rien n'est enregistré en ligne.</span>
+            <span>Démo statique de Swiply : connecté en tant que « Test Etudiant », données fictives, rien n'est enregistré en ligne. Les offres sont inventées pour la démonstration : les entreprises citées n'ont aucun lien avec ce projet.</span>
             <span class="mx-1">-</span>
             <a href="../#swiply" class="hover:underline">Retour au portfolio</a>
         </div>`;

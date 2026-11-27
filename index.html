@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nicolas Jumeau – Étudiant ingénieur informatique</title>
 <meta name="description" content="Portfolio de Nicolas Jumeau, étudiant ingénieur en informatique : projets web, jeu, optimisation.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Nicolas Jumeau">
+<meta property="og:title" content="Nicolas Jumeau – Étudiant ingénieur informatique">
+<meta property="og:description" content="Applications web, jeu vidéo et algorithmes d'optimisation : mes projets, testables dans le navigateur.">
+<meta property="og:url" content="https://portfolio-nicolasjumeau.vercel.app/">
+<meta property="og:image" content="https://portfolio-nicolasjumeau.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Nicolas Jumeau, étudiant ingénieur informatique : portfolio">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="fonts/fraunces-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
   /* Polices hébergées sur le site (aucune requête vers Google) – licence SIL OFL */
@@ -243,7 +257,10 @@
   .copy { grid-column: 1 / -1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: .8rem; color: #8a8a92; }
   #legal { display: none; grid-column: 1 / -1; background: #1c1c20; border-radius: 12px; padding: 18px 20px; font-size: .82rem; color: #c9c9cf; }
   #legal:target { display: block; }
-  #legal strong { color: #fff; }
+  #legal strong { color: #fff; display: block; margin-bottom: 8px; }
+  #legal p { margin: 6px 0; }
+  #legal b { color: #fff; font-weight: 600; }
+  #legal a { text-decoration: underline; }
 
   /* ---------- Apparition au défilement ---------- */
   .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
@@ -373,7 +390,7 @@
           <h2>Swiply</h2>
           <div class="tags"><span>Laravel</span><span>PHP</span><span>MySQL</span><span>JavaScript</span></div>
           <p>Application web réalisée en équipe qui aide les étudiants à trouver un stage ou une alternance en « swipant » des offres, à la manière d'une application de rencontres. Les entreprises publient leurs offres, les étudiants les likent, les ajoutent à leur wishlist puis postulent avec leur CV, et les pilotes de promotion suivent leurs candidatures.</p>
-          <p class="note">La démo en ligne est une version statique : les données de la base MySQL sont exportées en JSON et vos actions (swipes, wishlist, candidatures) restent dans votre navigateur.</p>
+          <p class="note">La démo en ligne est une version statique : les données de la base MySQL sont exportées en JSON et vos actions (swipes, wishlist, candidatures) restent dans votre navigateur. Les offres sont fictives.</p>
           <div class="links">
             <a class="btn dark" href="swiply/" target="_blank" rel="noopener">Essayer la démo <span class="arrow">↗</span></a>
           </div>
@@ -400,7 +417,7 @@
           <h2>Path of the Loner</h2>
           <div class="tags"><span>C++</span><span>SFML</span><span>POO</span><span>Jeu</span></div>
           <p>RPG au tour par tour dans l'univers viking, développé en équipe en C++ avec la bibliothèque SFML. On choisit un héros parmi quatre, puis on explore un donjon dont la carte se dévoile au fil des salles, en affrontant des monstres de plus en plus forts et en récupérant armes et armures pour trouver la salle du trésor.</p>
-          <p class="note">La démo est une version JavaScript simplifiée du mode PvE : elle reprend les mêmes données (héros, bestiaire, objets) et les mêmes règles de combat que le jeu C++.</p>
+          <p class="note">La démo est une version JavaScript simplifiée du mode PvE : elle reprend les mêmes données (héros, bestiaire, objets) et les mêmes règles de combat que le jeu C++. Illustrations générées par IA.</p>
           <div class="links">
             <a class="btn dark" href="loner/" target="_blank" rel="noopener">Jouer à la démo <span class="arrow">↗</span></a>
             <a class="btn" href="https://github.com/NicolasJUMEAU/cpp-path-of-the-loner" target="_blank" rel="noopener">Code C++</a>
@@ -505,10 +522,12 @@
           </ul>
         </div>
         <div id="legal">
-          <strong>Mentions légales</strong><br>
-          Éditeur : Nicolas Jumeau – contact : nicko.jumeau@gmail.com<br>
-          Hébergeur : Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis.<br>
-          Ce site ne dépose aucun cookie et ne collecte aucune donnée personnelle. Les polices sont hébergées sur le site lui-même.
+          <strong>Mentions légales</strong>
+          <p><b>Éditeur et directeur de la publication :</b> Nicolas Jumeau, particulier. Contact : <a href="mailto:nicko.jumeau@gmail.com">nicko.jumeau@gmail.com</a></p>
+          <p><b>Hébergeur :</b> Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis. Téléphone : +1 559 288 7060. <a href="https://vercel.com" target="_blank" rel="noopener">vercel.com</a></p>
+          <p><b>Données personnelles :</b> ce site ne dépose aucun cookie, n'utilise aucun outil de mesure d'audience et ne fait appel à aucun service tiers (les polices sont hébergées sur le site). Comme tout hébergeur, Vercel enregistre des journaux techniques (dont l'adresse IP des visiteurs) pour faire fonctionner et sécuriser le site. La démo Swiply enregistre vos actions (swipes, wishlist, candidatures) uniquement dans votre navigateur (stockage local) : elles ne sont envoyées nulle part et disparaissent si vous effacez les données du site ou cliquez sur « Réinitialiser la démo ». Pour toute question sur vos données, écrivez à l'adresse ci-dessus.</p>
+          <p><b>Projets d'équipe :</b> Swiply, Path of the Loner et Optimisation de tournées sont des projets scolaires publiés avec l'accord des coéquipiers. Dans la démo Swiply, les offres sont fictives et les entreprises citées n'ont aucun lien avec le projet.</p>
+          <p><b>Crédits :</b> illustrations de Path of the Loner générées par IA. Polices Fraunces, Inter, JetBrains Mono, Nunito et Quintessential, sous licence SIL Open Font License 1.1.</p>
         </div>
         <div class="copy">
           <span>© 2026 Nicolas Jumeau</span>
