@@ -35,7 +35,7 @@
     --head: 68px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--head) + 56px); }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--head) + 70px); }
   body {
     font-family: var(--sans); font-weight: 300; color: var(--ink); background: var(--paper);
     line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
@@ -69,21 +69,51 @@
   .btn:hover .arrow { transform: translateX(4px); }
   .btn.sm { padding: 8px 18px; font-size: .72rem; }
 
-  /* ---------- En-tête collant ---------- */
-  .head {
-    position: sticky; top: 0; z-index: 20; height: var(--head);
-    background: rgba(255,255,255,.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid transparent; transition: border-color .3s;
+  /* ---------- Barre de navigation flottante ---------- */
+  .float {
+    position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 20;
+    width: min(calc(100% - 24px), 1000px);
+    display: flex; flex-direction: column; align-items: center;
+    pointer-events: none;
   }
-  .head.scrolled { border-bottom-color: var(--line); }
-  .head .wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  .brand { font-family: var(--serif); font-size: 1.35rem; text-decoration: none; }
-  .head nav { display: flex; gap: 28px; }
-  .head nav a { font-family: var(--mono); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: var(--muted); transition: color .2s; }
-  .head nav a:hover, .head nav a.active { color: var(--ink); }
+  .glass {
+    background: rgba(255,255,255,.62);
+    backdrop-filter: blur(14px) saturate(1.5); -webkit-backdrop-filter: blur(14px) saturate(1.5);
+    border: 1px solid rgba(17,17,17,.07);
+    box-shadow: 0 8px 30px -12px rgba(0,0,0,.18);
+    pointer-events: auto;
+  }
+  .head {
+    width: 100%; height: var(--head); border-radius: 999px; padding: 0 10px 0 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    position: relative; z-index: 2;
+  }
+  .brand { font-family: var(--serif); font-size: 1.3rem; text-decoration: none; white-space: nowrap; }
+  .head nav { display: flex; gap: 4px; }
+  .head nav a { font-family: var(--mono); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: var(--muted); padding: 8px 14px; border-radius: 999px; transition: color .2s, background .2s; }
+  .head nav a:hover { color: var(--ink); }
+  .head nav a.active { color: var(--ink); background: rgba(17,17,17,.06); }
+
+  /* Repères des projets, accrochés sous la barre et visibles seulement dans la section Projets */
+  .steps {
+    display: flex; gap: 2px; padding: 6px; margin-top: -1px;
+    border-radius: 0 0 18px 18px; border-top: none;
+    opacity: 0; transform: translateY(-12px); visibility: hidden;
+    transition: opacity .3s, transform .3s, visibility 0s .3s;
+    position: relative; z-index: 1;
+  }
+  .steps.show { opacity: 1; transform: none; visibility: visible; transition: opacity .3s, transform .3s; }
+  .steps a {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+    text-decoration: none; color: #8a8a90; padding: 7px 14px; border-radius: 999px; white-space: nowrap; transition: color .2s, background .2s;
+  }
+  .steps a b { font-weight: 400; margin-right: 6px; }
+  .steps a:hover { color: var(--ink); }
+  .steps a.active { color: #fff; background: var(--ink); }
+  .steps .short, .head .brand .short { display: none; }
 
   /* ---------- Accueil ---------- */
-  .hero { text-align: center; padding-top: clamp(72px, 14vh, 150px); padding-bottom: 72px; }
+  .hero { text-align: center; padding-top: calc(var(--head) + clamp(72px, 14vh, 150px)); padding-bottom: 72px; }
   .hero .label { display: block; margin-bottom: 26px; }
   .hero .lead { font-size: clamp(1.1rem, 2.2vw, 1.4rem); max-width: 620px; margin: 26px auto 0; color: #333; }
   .status {
@@ -106,21 +136,6 @@
   /* ---------- Projets ---------- */
   .projects-intro { padding-top: 110px; padding-bottom: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; }
   .projects-intro p { color: var(--muted); max-width: 440px; justify-self: end; }
-
-  /* Repères de projets (01, 02…) qui suivent la lecture */
-  .steps {
-    position: sticky; top: var(--head); z-index: 15; background: rgba(255,255,255,.9);
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
-  }
-  .steps .wrap { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-top: 10px; padding-bottom: 10px; }
-  .steps .wrap::-webkit-scrollbar { display: none; }
-  .steps a {
-    font-family: var(--mono); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
-    text-decoration: none; color: #9a9aa0; padding: 6px 14px; border-radius: 999px; white-space: nowrap; transition: color .2s, background .2s;
-  }
-  .steps a b { font-weight: 400; margin-right: 6px; }
-  .steps a:hover { color: var(--ink); }
-  .steps a.active { color: var(--ink); background: var(--soft); }
 
   .project { display: grid; grid-template-columns: minmax(0,5fr) minmax(0,7fr); gap: clamp(28px, 5vw, 72px); align-items: center; padding: 90px 0; border-bottom: 1px solid var(--line); }
   .project:last-of-type { border-bottom: none; }
@@ -188,6 +203,25 @@
   .graph-wrap .hint { text-align: center; margin-top: 14px; color: #333; }
   .graph-wrap .hint::before { content: "↻ "; }
 
+  /* ---------- Parcours ---------- */
+  .parcours { padding-top: 110px; padding-bottom: 60px; border-top: 1px solid var(--line); }
+  .parcours-head { margin-bottom: 48px; }
+  .parcours-head .label { display: block; margin-bottom: 18px; }
+  .cols { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(32px, 6vw, 96px); }
+  .parcours h3 { font-family: var(--mono); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; }
+  .parcours h3 ~ h3 { margin-top: 44px; }
+  .timeline { list-style: none; border-left: 1px solid var(--line); margin-bottom: 28px; }
+  .timeline li { position: relative; padding: 0 0 26px 24px; display: grid; gap: 4px; }
+  .timeline li::before { content: ""; position: absolute; left: -5px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: #fff; border: 1.5px solid var(--ink); }
+  .timeline li:first-child::before { background: var(--ink); }
+  .timeline .when { font-family: var(--mono); font-size: .72rem; letter-spacing: .04em; color: var(--muted); }
+  .timeline strong { font-family: var(--serif); font-weight: 400; font-size: 1.3rem; display: block; line-height: 1.25; }
+  .timeline .where { display: block; font-size: .9rem; color: var(--muted); }
+  .timeline p { font-size: .95rem; margin-top: 6px; color: #2a2a2e; }
+  .skills { display: grid; grid-template-columns: max-content 1fr; gap: 10px 20px; font-size: .95rem; }
+  .skills dt { font-weight: 600; }
+  .skills dd { color: #2a2a2e; }
+
   /* ---------- Contact (bloc sombre) ---------- */
   .contact { background: var(--ink); color: #fff; border-radius: 28px 28px 0 0; margin-top: 40px; padding: clamp(80px, 12vw, 140px) 0 40px; }
   .contact .label { color: #a5a5ad; display: block; margin-bottom: 22px; }
@@ -230,15 +264,25 @@
     .project, .project.reverse { grid-template-columns: minmax(0,1fr); padding: 64px 0; }
     .project.reverse .text { order: 0; }
     footer { grid-template-columns: 1fr 1fr; }
+    .cols { grid-template-columns: minmax(0,1fr); }
+    .parcours { padding-top: 80px; }
     footer > div:first-child { grid-column: 1 / -1; }
   }
   @media (max-width: 560px) {
-    :root { --head: 60px; }
-    .head nav { gap: 16px; }
+    :root { --head: 56px; }
+    .float { top: 10px; width: calc(100% - 20px); }
+    .head { padding: 0 8px 0 18px; gap: 8px; }
+    .head nav { gap: 0; }
+    .head nav a { padding: 7px 8px; font-size: .68rem; }
     .head nav a[href="#accueil"] { display: none; }
-    .brand { font-size: 1.15rem; }
+    .brand { font-size: 1.1rem; }
     .head .btn.sm { padding: 7px 14px; }
-    .hero { padding-top: 56px; }
+    .hero { padding-top: calc(var(--head) + 56px); }
+    .steps { padding: 5px; }
+    .steps a { padding: 6px 9px; font-size: .66rem; }
+    .steps a b { margin-right: 4px; }
+    .steps .full, .head .brand .full { display: none; }
+    .steps .short, .head .brand .short { display: inline; }
     .actions .btn { flex: 1 1 100%; justify-content: center; }
   }
 </style>
@@ -246,55 +290,53 @@
 </head>
 <body>
 
-<header class="head" id="head">
-  <div class="wrap">
-    <a class="brand" href="#accueil">Nicolas Jumeau</a>
+<div class="float">
+  <header class="head glass">
+    <a class="brand" href="#accueil" aria-label="Nicolas Jumeau, accueil"><span class="full">Nicolas Jumeau</span><span class="short">NJ</span></a>
     <nav aria-label="Navigation principale">
       <a href="#accueil">Accueil</a>
       <a href="#projets">Projets</a>
+      <a href="#parcours">Parcours</a>
       <a href="#contact">Contact</a>
     </nav>
     <a class="btn sm dark" href="cv.pdf" download>CV</a>
-  </div>
-</header>
+  </header>
+  <nav class="steps glass" id="steps" aria-label="Projets">
+    <a href="#guitab"><b>01</b><span class="full">GuiTab Studio</span><span class="short">GuiTab</span></a>
+    <a href="#swiply"><b>02</b>Swiply</a>
+    <a href="#loner"><b>03</b><span class="full">Path of the Loner</span><span class="short">Loner</span></a>
+    <a href="#optim"><b>04</b><span class="full">Optimisation</span><span class="short">Optim.</span></a>
+  </nav>
+</div>
 
 <main>
 
   <!-- ACCUEIL -->
   <section id="accueil" class="hero wrap">
-    <span class="label reveal">Étudiant ingénieur informatique</span>
+    <span class="label reveal">Étudiant ingénieur informatique · CESI</span>
     <h1 class="reveal d1">Nicolas <em>Jumeau</em></h1>
     <p class="lead reveal d2">Applications web, jeu vidéo et algorithmes d'optimisation : une sélection de mes projets personnels et scolaires.</p>
-    <p class="status reveal d3">À la recherche d'un stage de 2 à 3 mois, disponible dès janvier</p>
+    <p class="status reveal d3">À la recherche d'un stage de 3 mois en IA / machine learning dès janvier 2027</p>
     <div class="actions reveal d4">
       <a class="btn dark" href="#projets">Voir mes projets <span class="arrow">→</span></a>
       <a class="btn" href="#contact">Me contacter</a>
     </div>
   </section>
 
-  <div class="marquee" aria-label="Technologies utilisées dans mes projets">
-    <span class="label">Technologies utilisées dans mes projets</span>
+  <div class="marquee" data-nav="accueil" aria-label="Technologies que j'utilise">
+    <span class="label">Technologies que j'utilise</span>
     <div class="track" aria-hidden="true">
-      <span>Python</span><span>C++</span><span>SFML</span><span>JavaScript</span><span>PHP</span><span>Laravel</span><span>MySQL</span><span>Recuit simulé</span><span>Vercel</span><span>Git</span>
-      <span>Python</span><span>C++</span><span>SFML</span><span>JavaScript</span><span>PHP</span><span>Laravel</span><span>MySQL</span><span>Recuit simulé</span><span>Vercel</span><span>Git</span>
+      <span>Python</span><span>C++</span><span>Java</span><span>Spring</span><span>JavaScript</span><span>PHP</span><span>Laravel</span><span>MySQL</span><span>PostgreSQL</span><span>SFML</span><span>Linux</span><span>Git</span>
+      <span>Python</span><span>C++</span><span>Java</span><span>Spring</span><span>JavaScript</span><span>PHP</span><span>Laravel</span><span>MySQL</span><span>PostgreSQL</span><span>SFML</span><span>Linux</span><span>Git</span>
     </div>
   </div>
 
   <!-- PROJETS -->
   <section id="projets">
-    <div class="wrap projects-intro">
+    <div class="wrap projects-intro" data-nav="projets">
       <h2 class="reveal">Quatre projets,<br><em>quatre terrains de jeu</em></h2>
       <p class="reveal d1">Du web au jeu vidéo en passant par la recherche opérationnelle. Chaque projet se teste directement dans le navigateur.</p>
     </div>
-
-    <nav class="steps" aria-label="Projets">
-      <div class="wrap">
-        <a href="#guitab"><b>01</b>GuiTab Studio</a>
-        <a href="#swiply"><b>02</b>Swiply</a>
-        <a href="#loner"><b>03</b>Path of the Loner</a>
-        <a href="#optim"><b>04</b>Optimisation</a>
-      </div>
-    </nav>
 
     <div class="wrap">
 
@@ -305,7 +347,7 @@
           <h2>GuiTab Studio</h2>
           <div class="tags"><span>Web</span><span>Vercel</span></div>
           <p>Application personnelle de partitions et tablatures de guitare, pensée pour simplifier et automatiser leur création.</p>
-          <p class="note">À compléter : problème de départ, fonctionnalités principales, ce que tu as appris.</p>
+          <p class="note">Projet en cours de développement, réalisé avec l'aide de l'IA.</p>
           <div class="links">
             <a class="btn dark" href="https://guitab-studio.vercel.app" target="_blank" rel="noopener">Voir le site <span class="arrow">↗</span></a>
           </div>
@@ -327,7 +369,7 @@
       <!-- SWIPLY -->
       <article class="project reverse" id="swiply">
         <div class="text reveal">
-          <span class="label">02 — Projet d'équipe · Web</span>
+          <span class="label">02 — Projet scolaire · Web</span>
           <h2>Swiply</h2>
           <div class="tags"><span>Laravel</span><span>PHP</span><span>MySQL</span><span>JavaScript</span></div>
           <p>Application web réalisée en équipe qui aide les étudiants à trouver un stage ou une alternance en « swipant » des offres, à la manière d'une application de rencontres. Les entreprises publient leurs offres, les étudiants les likent, les ajoutent à leur wishlist puis postulent avec leur CV, et les pilotes de promotion suivent leurs candidatures.</p>
@@ -354,7 +396,7 @@
       <!-- PATH OF THE LONER -->
       <article class="project" id="loner">
         <div class="text reveal">
-          <span class="label">03 — Projet d'équipe · Jeu</span>
+          <span class="label">03 — Projet scolaire · Jeu</span>
           <h2>Path of the Loner</h2>
           <div class="tags"><span>C++</span><span>SFML</span><span>POO</span><span>Jeu</span></div>
           <p>RPG au tour par tour dans l'univers viking, développé en équipe en C++ avec la bibliothèque SFML. On choisit un héros parmi quatre, puis on explore un donjon dont la carte se dévoile au fil des salles, en affrontant des monstres de plus en plus forts et en récupérant armes et armures pour trouver la salle du trésor.</p>
@@ -375,7 +417,7 @@
       <!-- OPTIMISATION -->
       <article class="project reverse" id="optim">
         <div class="text reveal">
-          <span class="label">04 — Projet d'équipe · Algorithmie</span>
+          <span class="label">04 — Projet scolaire · Algorithmie</span>
           <h2>Optimisation de tournées</h2>
           <div class="tags"><span>Python</span><span>Recuit simulé</span><span>CVRP</span></div>
           <p>Projet de 3<sup>e</sup> année en équipe : trouver les tournées les plus courtes pour des camions qui partent d'un dépôt, livrent tous les clients et reviennent au dépôt.</p>
@@ -390,22 +432,58 @@
     </div>
   </section>
 
+  <!-- PARCOURS -->
+  <section id="parcours" class="wrap parcours">
+    <div class="parcours-head">
+      <span class="label reveal">Parcours</span>
+      <h2 class="reveal d1">Formation <em>et expériences</em></h2>
+    </div>
+    <div class="cols">
+      <div class="reveal">
+        <h3>Formation</h3>
+        <ol class="timeline">
+          <li><span class="when">2024 – 2029</span><div><strong>Diplôme d'ingénieur en informatique</strong><span class="where">CESI École d'Ingénieurs · Nanterre</span><p>3<sup>e</sup> année (1<sup>re</sup> année du cycle ingénieur). Développement web et logiciel, systèmes embarqués, réseaux.</p></div></li>
+          <li><span class="when">2021 – 2024</span><div><strong>Baccalauréat général</strong><span class="where">Lycée Ozenne · Toulouse</span></div></li>
+        </ol>
+        <h3>Compétences</h3>
+        <dl class="skills">
+          <dt>Programmation</dt><dd>Python, C++, Java, Spring, API</dd>
+          <dt>Web</dt><dd>HTML, CSS, JavaScript, PHP, Laravel, Figma</dd>
+          <dt>Bases de données</dt><dd>SQL, MySQL, PostgreSQL</dd>
+          <dt>Collaboration</dt><dd>GitHub, GitLab, agilité, IA</dd>
+          <dt>Réseau</dt><dd>Cisco Packet Tracer, Linux</dd>
+          <dt>Langues</dt><dd>Français (langue maternelle), anglais (B2)</dd>
+        </dl>
+      </div>
+      <div class="reveal d1">
+        <h3>Expériences</h3>
+        <ol class="timeline">
+          <li><span class="when">Avr. – août 2026</span><div><strong>Stagiaire développeur data</strong><span class="where">Dalkia · Paris La Défense</span><p>Refonte d'une application Spring (Java) de récupération de données de l'INSEE. Audit de l'existant et rédaction de la procédure d'évolution pour les développeurs.</p></div></li>
+          <li><span class="when">Oct. 2024 – avr. 2026</span><div><strong>Bénévole</strong><span class="where">Association Les Herbes Folles · Toulouse</span><p>Organisation d'événements culturels et festifs, cuisine et bar.</p></div></li>
+          <li><span class="when">Mai – juin 2025</span><div><strong>Employé polyvalent</strong><span class="where">Carrefour · Toulouse</span><p>Caisse, réassort et conseil aux clients.</p></div></li>
+          <li><span class="when">Avril 2022</span><div><strong>Stagiaire chercheur en IA</strong><span class="where">IRT Saint Exupéry · Toulouse</span><p>Découverte de projets d'IA appliquée à l'aéronautique et aux systèmes embarqués.</p></div></li>
+        </ol>
+        <a class="btn dark" href="cv.pdf" download>Télécharger le CV <span class="arrow">↓</span></a>
+      </div>
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <section id="contact" class="contact">
     <div class="wrap">
       <span class="label reveal">Contact</span>
-      <h2 class="reveal d1">Un stage de 2 à 3 mois à partir de janvier ? <em style="white-space:nowrap">Parlons-en.</em></h2>
+      <h2 class="reveal d1">Un stage de 3 mois en IA à partir de janvier 2027 ? <em style="white-space:nowrap">Parlons-en.</em></h2>
       <div class="actions reveal d2">
-        <a class="btn light" href="mailto:ton.email@exemple.fr">M'écrire <span class="arrow">→</span></a>
-        <a class="btn" href="https://www.linkedin.com/in/TON-PROFIL" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn" href="https://github.com/TON-PSEUDO" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn light" href="mailto:nicko.jumeau@gmail.com">M'écrire <span class="arrow">→</span></a>
+        <a class="btn" href="https://www.linkedin.com/in/nicolasjumeau" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/NicolasJUMEAU" target="_blank" rel="noopener">GitHub</a>
         <a class="btn" href="cv.pdf" download>Télécharger le CV</a>
       </div>
 
       <footer>
         <div>
           <a class="brand" href="#accueil">Nicolas Jumeau</a>
-          <p>Étudiant ingénieur informatique.</p>
+          <p>Étudiant ingénieur informatique au CESI.<br>Paris, Île-de-France.</p>
         </div>
         <div>
           <h3>Projets</h3>
@@ -414,20 +492,21 @@
             <li><a href="#swiply">Swiply</a></li>
             <li><a href="#loner">Path of the Loner</a></li>
             <li><a href="#optim">Optimisation</a></li>
+            <li><a href="#parcours">Parcours</a></li>
           </ul>
         </div>
         <div>
           <h3>Liens</h3>
           <ul>
-            <li><a href="mailto:ton.email@exemple.fr">E-mail</a></li>
-            <li><a href="https://www.linkedin.com/in/TON-PROFIL" target="_blank" rel="noopener">LinkedIn</a></li>
-            <li><a href="https://github.com/TON-PSEUDO" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="mailto:nicko.jumeau@gmail.com">E-mail</a></li>
+            <li><a href="https://www.linkedin.com/in/nicolasjumeau" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://github.com/NicolasJUMEAU" target="_blank" rel="noopener">GitHub</a></li>
             <li><a href="#legal">Mentions légales</a></li>
           </ul>
         </div>
         <div id="legal">
           <strong>Mentions légales</strong><br>
-          Éditeur : Nicolas Jumeau – contact : ton.email@exemple.fr<br>
+          Éditeur : Nicolas Jumeau – contact : nicko.jumeau@gmail.com<br>
           Hébergeur : Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis.<br>
           Ce site ne dépose aucun cookie et ne collecte aucune donnée personnelle. Les polices sont hébergées sur le site lui-même.
         </div>
@@ -442,11 +521,6 @@
 </main>
 
 <script>
-/* ---------- En-tête : bordure au défilement ---------- */
-const head = document.getElementById('head');
-const onScroll = () => head.classList.toggle('scrolled', scrollY > 10);
-addEventListener('scroll', onScroll, { passive: true }); onScroll();
-
 /* ---------- Apparition des blocs au défilement ---------- */
 const reveals = document.querySelectorAll('.reveal');
 if ('IntersectionObserver' in window) {
@@ -456,28 +530,22 @@ if ('IntersectionObserver' in window) {
   reveals.forEach(r => ro.observe(r));
 } else reveals.forEach(r => r.classList.add('in'));
 
-/* ---------- Lien actif (menu du haut + repères 01–04) ---------- */
+/* ---------- Lien actif (menu + repères 01–04) ----------
+   Aucun défilement automatique ici : on change seulement des classes,
+   pour ne jamais gêner le défilement de la page. */
 const navLinks = [...document.querySelectorAll('.head nav a')];
 const stepLinks = [...document.querySelectorAll('.steps a')];
-const watch = [...document.querySelectorAll('#accueil, #contact, .project')];
+const steps = document.getElementById('steps');
 const spy = new IntersectionObserver(entries => entries.forEach(e => {
   if (!e.isIntersecting) return;
   const id = e.target.id;
-  const top = e.target.classList.contains('project') ? 'projets' : id;
+  const isProject = e.target.classList.contains('project');
+  const top = e.target.dataset.nav || (isProject ? 'projets' : id);
   navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + top));
-  stepLinks.forEach(a => {
-    const on = a.getAttribute('href') === '#' + id;
-    a.classList.toggle('active', on);
-    /* On fait défiler seulement la barre des repères, à l'horizontale.
-       (scrollIntoView faisait aussi bouger la page : petit retour en arrière) */
-    if (on) {
-      const bar = a.parentElement;
-      const left = a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2;
-      bar.scrollTo({ left, behavior: 'smooth' });
-    }
-  });
+  if (isProject) stepLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+  steps.classList.toggle('show', isProject);
 }), { rootMargin: '-45% 0px -45% 0px' });
-watch.forEach(s => spy.observe(s));
+document.querySelectorAll('#accueil, .marquee, .projects-intro, .project, #parcours, #contact').forEach(s => spy.observe(s));
 
 /* ---------- Carrousels (boutons, points, glisser au doigt) ---------- */
 document.querySelectorAll('[data-carousel]').forEach(c => {
